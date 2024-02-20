@@ -8,6 +8,11 @@ import GridTopicsView from '@/components/GridTopicsView.vue';
 import WrapTags from '@/components/WrapTags.vue';
 import BackgroundImageTextArticle from '@/components/icons/BackgroundImageTextArticle.vue';
 import { ref } from 'vue';
+import router from '@/router';
+
+function navigate_article(path: string) {
+  router.push('article/' + path)
+}
 
 const menu1 = {
   title: "Feature",
@@ -143,7 +148,7 @@ const popularArticles = ref([
       <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
       <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
     </div>
-    <HomeBanner class="banner" :largeImageSrc="bannerImages.main" :mainTitle="bannerTitles.main"
+    <HomeBanner @banner-click="(id) => navigate_article(id)" class="banner" :largeImageSrc="bannerImages.main" :mainTitle="bannerTitles.main"
       :smallImages="bannerImages.subs" :subTitles="bannerTitles.subs" />
   </header>
   <main>

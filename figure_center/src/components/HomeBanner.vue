@@ -1,5 +1,5 @@
 <template>
-  <div class="banner">
+  <div @click=click(path) class="banner">
     <div class="large-image">
       <img :src="largeImageSrc" alt="Large Image">
       <div class="overlay-main">{{ mainTitle }}</div>
@@ -20,6 +20,16 @@ const props = defineProps<{
   smallImages: string[]
   subTitles: string[]
 }>()
+
+const path = "11"
+
+const emit = defineEmits<{
+  (e: 'bannerClick', id: string): void
+}>()
+
+function click(path: string) {
+  emit('bannerClick', path)
+}
 </script>
   
 <style scoped>
