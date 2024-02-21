@@ -8,6 +8,7 @@ import GridTopicsView from '@/components/GridTopicsView.vue';
 import WrapTags from '@/components/WrapTags.vue';
 import BackgroundImageTextArticle from '@/components/icons/BackgroundImageTextArticle.vue';
 import ArticleBanner from '@/components/ArticleBanner.vue'
+import FooterView from '@/components/FooterView.vue';
 import { ref } from 'vue';
 import router from '@/router';
 import { useRoute } from 'vue-router';
@@ -219,6 +220,7 @@ const popularArticles = ref([
             </div>
         </div>
     </main>
+    <FooterView />
 </template>
 
 <style scoped>

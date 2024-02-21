@@ -9,6 +9,7 @@ import WrapTags from '@/components/WrapTags.vue';
 import BackgroundImageTextArticle from '@/components/icons/BackgroundImageTextArticle.vue';
 import { ref } from 'vue';
 import router from '@/router';
+import FooterView from '@/components/FooterView.vue';
 
 function navigate_article(path: string) {
   router.push('article/' + path)
@@ -184,6 +185,7 @@ const popularArticles = ref([
       </div>
     </div>
   </main>
+  <FooterView />
 </template>
 
 <style scoped>
