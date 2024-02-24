@@ -10,6 +10,7 @@ import BackgroundImageTextArticle from '@/components/icons/BackgroundImageTextAr
 import { ref } from 'vue';
 import router from '@/router';
 import FooterView from '@/components/FooterView.vue';
+import PagingView from '@/components/PagingView.vue';
 
 function navigate_article(path: string) {
   router.push('article/' + path)
@@ -22,6 +23,11 @@ function navigateByTpye(type: string, path: string) {
     router.push('article/' + path)
   }
 }
+
+const pages = ref({
+  counts: 12,
+  currentPage: 1
+})
 
 const menu1 = {
   title: "Feature",
@@ -141,6 +147,7 @@ const popularArticles = ref([
 </script>
 
 <template>
+  <div class="main-holder"><div class="inner-main-holder">
   <div id="logo" class="left">
     <a href="//www.toy-people.com/" onclick="ga('send', 'event', 'PC_Menu_Top_Logo', 'click');"><img
         src="//www.toy-people.com/img/logo.svg" alt="玩具人Toy People News" title="玩具人Toy People News" width="157"
@@ -157,10 +164,11 @@ const popularArticles = ref([
       <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
       <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
     </div>
+  </header>
+  
+  <main>
     <HomeBanner @banner-type-click="(type, path) => navigateByTpye(type, path)" class="banner" :largeImageSrc="bannerImages.main" :mainTitle="bannerTitles.main"
       :smallImages="bannerImages.subs" :subTitles="bannerTitles.subs" />
-  </header>
-  <main>
     <div class="main-body">
       <div class="main-body-left">
         <div style="height: 2rem;">Hot Topics</div>
@@ -171,6 +179,7 @@ const popularArticles = ref([
           <HomeArticleListItem class="body-left-article" :imageSrc="homeArticle.imageSrc" :title="homeArticle.title"
             :timestamp="homeArticle.timestamp" />
         </template>
+        <PagingView :counts="pages.counts" :current-page="pages.currentPage" />
       </div>
       <div class="main-body-right">
         <div>Tags</div>
@@ -193,6 +202,8 @@ const popularArticles = ref([
       </div>
     </div>
   </main>
+</div>
+</div>
   <FooterView />
 </template>
 
@@ -219,6 +230,15 @@ const popularArticles = ref([
 
 .banner {
   margin-top: 1rem;
+}
+
+.main-holder {
+  display: flex;
+  justify-content: center;
+}
+
+.inner-main-holder {
+  max-width: 1280px;
 }
 
 .main-body {

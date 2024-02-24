@@ -232,6 +232,7 @@ const popularArticles = ref([
 </script>
 
 <template>
+    <div class="main-holder"><div class="inner-main-holder">
     <div id="logo" class="left">
         <a href="//www.toy-people.com/" onclick="ga('send', 'event', 'PC_Menu_Top_Logo', 'click');"><img
                 src="//www.toy-people.com/img/logo.svg" alt="玩具人Toy People News" title="玩具人Toy People News" width="157"
@@ -267,6 +268,10 @@ const popularArticles = ref([
                             :timestamp="article.timestamp" />
                     </template>
                 </div>
+                <div style="margin: 1.5rem 0 0.5rem 0;">
+                    <div>Relative Topics : </div>
+                    <WrapTags :tags="tags" style="margin-top: 0.5rem;"/>
+                </div>
                 <!-- <div class="article-content" v-html="article.content + article.content + article.content"></div> -->
                 <!-- <div v-if="article.twitter != ''" class="twitter-holder">
                     <div style="flex: 1"></div>
@@ -295,10 +300,21 @@ const popularArticles = ref([
             </div>
         </div>
     </main>
+</div>
+</div>
     <FooterView />
 </template>
 
 <style scoped>
+
+.main-holder {
+  display: flex;
+  justify-content: center;
+}
+
+.inner-main-holder {
+  max-width: 1280px;
+}
 .header-block {
     width: 100%;
     min-width: 1280px;

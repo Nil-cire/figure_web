@@ -39,8 +39,8 @@ const article = ref({
 })
 
 const menu1 = {
-    title:  " Feature",
-    menus:  [ "Good Smile", "BANDAI", "GK"]
+    title: " Feature",
+    menus: ["Good Smile", "BANDAI", "GK"]
 }
 const imageUrl = 'https://img.toy-people.com/member/1708 1 60 7 9048_1200.jpg'
 const bannerImages = {
@@ -48,7 +48,7 @@ const bannerImages = {
     subs: [imageUrl, imageUrl, imageUrl, imageUrl]
 }
 
-const articleImageSrc =  ' https://img.toy-peop l e.co m /member/170806416696_1200.jpg'
+const articleImageSrc = ' https://img.toy-peop l e.co m /member/170806416696_1200.jpg'
 const homeArticle = {
     imageSrc: articleImageSrc,
     title: "壽屋『我想成為影之強者！戴爾塔 ED Ver.』1/7比例模型 再現可愛又不失性感的豪放M字蹲！",
@@ -62,6 +62,7 @@ const bannerTitles = {
 
 const twitterIdArt = ref('1759401929308885060')
 const twitterIdCosplay = ref('1758975904330752312')
+const readMore = "Read more"
 
 const imageUrlTopic = 'https://img.toy-people.com/member/17080985107_1200.jpg'
 const subTopics = [
@@ -156,29 +157,32 @@ const popularArticles = ref([
 </script>
 
 <template>
-    <div id="logo" class="left">
-        <a href="//www.toy-people.com/" onclick="ga('send', 'event', 'PC_Menu_Top_Logo', 'click');"><img
-                src="//www.toy-people.com/img/logo.svg" alt="玩具人Toy People News" title="玩具人Toy People News" width="157"
-                height="49"></a>
-    </div>
-    <header class="header-block">
-        <div class="header-menu-bar">
-            <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-            <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-            <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-            <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-            <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-            <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-            <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-            <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-        </div>
-        <ArticleBanner class="banner" :article="article" />
-    </header>
-    <main>
-        <div class="main-body">
-            <div class="main-body-left">
-                <!-- <CategoryHeader :title="article.title" /> -->
-                <!-- <div style="height: 2rem;">Hot Topics</div>
+    <div class="main-holder">
+        <div class="inner-main-holder">
+            <div id="logo" class="left">
+                <a href="//www.toy-people.com/" onclick="ga('send', 'event', 'PC_Menu_Top_Logo', 'click');"><img
+                        src="//www.toy-people.com/img/logo.svg" alt="玩具人Toy People News" title="玩具人Toy People News"
+                        width="157" height="49"></a>
+            </div>
+            <header class="header-block">
+                <div class="header-menu-bar">
+                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
+                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
+                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
+                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
+                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
+                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
+                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
+                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
+                </div>
+                <ArticleBanner class="banner" :article="article" />
+            </header>
+            <main>
+                <div class="main-body">
+                    <div class="main-body-left">
+                        <div class="main-body-left-article">
+                            <!-- <CategoryHeader :title="article.title" /> -->
+                            <!-- <div style="height: 2rem;">Hot Topics</div>
                 <GridTopicsView :topics="subTopics" />
                 <div style="height: 2rem;"></div>
                 <div style="height: 2rem;">Latest News</div>
@@ -186,46 +190,72 @@ const popularArticles = ref([
                     <HomeArticleListItem class="body-left-article" :imageSrc="homeArticle.imageSrc"
                         :title="homeArticle.title" :timestamp="homeArticle.timestamp" />
                 </template> -->
-                <div>
-                    <template v-for="(content, index) in article.content">
-                        <div>
-                            <div v-if="content.includes('<img')" class="article-image-content" v-html="content"></div>
-                            <div v-else class="article-content" v-html="content"></div>
+                            <div>
+                                <template v-for="(content, index) in article.content">
+                                    <div>
+                                        <div v-if="content.includes('<img')" class="article-image-content" v-html="content">
+                                        </div>
+                                        <div v-else class="article-content" v-html="content"></div>
+                                    </div>
+                                </template>
+                            </div>
+                            <!-- <div class="article-content" v-html="article.content + article.content + article.content"></div> -->
+                            <div v-if="article.twitter != ''" class="twitter-holder">
+                                <div style="flex: 1"></div>
+                                <EmbedView class="twitter" :twitter-id="article.twitter" />
+                                <div style="flex: 1"></div>
+                            </div>
+
+                            <div style="margin: 1.5rem 2rem 0.5rem 2rem;">
+                                <div>Relative:</div>
+                                <WrapTags :tags="tags" style="margin-top: 0.5rem;"/>
+                            </div>
                         </div>
-                    </template>
-                </div>
-                <!-- <div class="article-content" v-html="article.content + article.content + article.content"></div> -->
-                <div v-if="article.twitter != ''" class="twitter-holder">
-                    <div style="flex: 1"></div>
-                    <EmbedView class="twitter" :twitter-id="article.twitter" />
-                    <div style="flex: 1"></div>
-                </div>
-            </div>
-            <div class="main-body-right">
-                <div style="height: 2rem;">Tags</div>
-                <WrapTags :tags="tags" />
-                <!-- <div style="height: 1.5rem;"></div>
+
+                        <CategoryHeader style="margin-top: 2rem;" :title="readMore" />
+                        <div style="margin-top: 1rem;">
+                            <template v-for="n in 10">
+                                <HomeArticleListItem class="body-left-article" :imageSrc="article.image_url"
+                                    :title="article.title" :timestamp="article.timestamp" />
+                            </template>
+                        </div>
+                    </div>
+                    <div class="main-body-right">
+                        <div style="height: 2rem;">Tags</div>
+                        <WrapTags :tags="tags" />
+                        <!-- <div style="height: 1.5rem;"></div>
                 <div>Art Work Of The Day</div>
                 <EmbedView :twitterId="twitterIdArt" />
                 <div style="height: 1rem;"></div>
                 <div>Cosplay Of The Day</div>
                 <EmbedView :twitterId="twitterIdCosplay" /> -->
-                <div style="height: 1.5rem;"></div>
-                <div style="height: 2rem;">Popular</div>
-                <template v-for="article in popularArticles">
-                    <BackgroundImageTextArticle style="margin-bottom: 0.5rem;" :article="article" />
-                </template>
-                <!-- <template v-for="n in 10">
+                        <div style="height: 1.5rem;"></div>
+                        <div style="height: 2rem;">Popular</div>
+                        <template v-for="article in popularArticles">
+                            <BackgroundImageTextArticle style="margin-bottom: 0.5rem;" :article="article" />
+                        </template>
+                        <!-- <template v-for="n in 10">
           <HomeSimpleArticleListItem class="body-right-article" :imageSrc="homeArticle.imageSrc"
             :title="homeArticle.title" :timestamp="homeArticle.timestamp" />
         </template> -->
-            </div>
+                    </div>
+                </div>
+            </main>
         </div>
-    </main>
+    </div>
     <FooterView />
 </template>
 
 <style scoped>
+.main-holder {
+    display: flex;
+    justify-content: center;
+}
+
+.inner-main-holder {
+    max-width: 1280px;
+}
+
 .header-block {
     width: 100%;
     min-width: 1280px;
@@ -256,21 +286,31 @@ const popularArticles = ref([
 }
 
 .main-body-left {
+    
     /* flex: 4; */
     width: 1000px;
+    
     /* width: 100%; */
 }
 
+.main-body-left-article {
+    padding: 1rem 0 1rem 0;
+    background-color: white;
+}
+
 .article-content {
+    margin-top: 1rem;
     font-size: 1.2rem;
     padding: 0 3rem;
 }
 
 .article-image-content {
+    margin-top: 1rem;
     display: flex;
 }
 
 .twitter-holder {
+    margin-top: 1rem;
     display: flex;
     /* background-color: black; */
 }

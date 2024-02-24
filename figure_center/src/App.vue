@@ -17,8 +17,19 @@ import HelloWorld from './components/HelloWorld.vue'
     </div>
   </header> -->
 
-  <RouterView />
+  <!-- <div class="main-holder">
+    <div> -->
+      <RouterView />
+    <!-- </div>
+  </div> -->
 </template>
+
+<style scoped>
+/* .main-holder {
+  display: flex;
+  justify-content: center;
+} */
+</style>
 
 <!-- <style scoped>
 header {
