@@ -1,11 +1,11 @@
 <template>
-  <div @click=click(path) class="banner">
-    <div class="large-image">
+  <div class="banner">
+    <div class="large-image" @click="handleClick(category, 'category01')">
       <img :src="largeImageSrc" alt="Large Image">
       <div class="overlay-main">{{ mainTitle }}</div>
     </div>
     <div class="small-images">
-      <div v-for="(image, index) in smallImages" :key="index" class="small-image">
+      <div v-for="(image, index) in smallImages" :key="index" class="small-image" @click="handleClick(article, path)">
         <img :src="image" alt="Small Image">
         <div class="overlay-sub">{{ subTitles[index] }}</div>
       </div>
@@ -21,14 +21,22 @@ const props = defineProps<{
   subTitles: string[]
 }>()
 
-const path = "11"
+const path = "11";
+const article = 'article';
+const category = 'category';
+
+// const emit = defineEmits<{
+//   (e: 'bannerClick', id: string): void
+//   (e: 'bannerTypeClick', type: string, path: string): void
+// }>()
 
 const emit = defineEmits<{
-  (e: 'bannerClick', id: string): void
+  bannerTypeClick: [type: string, path: string]
 }>()
 
-function click(path: string) {
-  emit('bannerClick', path)
+function handleClick(type: string, path: string) {
+  // emit('bannerClick', path)
+  emit('bannerTypeClick', type, path)
 }
 </script>
   

@@ -15,6 +15,14 @@ function navigate_article(path: string) {
   router.push('article/' + path)
 }
 
+function navigateByTpye(type: string, path: string) {
+  if (type == 'category') {
+    router.push('category/' + path)
+  } else {
+    router.push('article/' + path)
+  }
+}
+
 const menu1 = {
   title: "Feature",
   menus: ["Good Smile", "BANDAI", "GK"]
@@ -149,7 +157,7 @@ const popularArticles = ref([
       <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
       <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
     </div>
-    <HomeBanner @banner-click="(id) => navigate_article(id)" class="banner" :largeImageSrc="bannerImages.main" :mainTitle="bannerTitles.main"
+    <HomeBanner @banner-type-click="(type, path) => navigateByTpye(type, path)" class="banner" :largeImageSrc="bannerImages.main" :mainTitle="bannerTitles.main"
       :smallImages="bannerImages.subs" :subTitles="bannerTitles.subs" />
   </header>
   <main>

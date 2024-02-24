@@ -6,7 +6,7 @@ const props = defineProps<{
         main_topic: string,
         sub_topic: string,
         tags: string[],
-        imageUrl: string,
+        image_url: string,
         content: string[],
         timestamp: string,
         twitter: string,
@@ -17,7 +17,7 @@ const props = defineProps<{
 
 <template>
     <div class="holder">
-        <img :src="article.imageUrl">
+        <img :src="article.image_url">
         <dic class="image-cover"></dic>
         <div class="content-holder">
             <div class="main-tag-holder">

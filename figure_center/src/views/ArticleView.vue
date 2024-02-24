@@ -12,6 +12,7 @@ import FooterView from '@/components/FooterView.vue';
 import { ref } from 'vue';
 import router from '@/router';
 import { useRoute } from 'vue-router';
+import CategoryHeader from '@/components/CategoryHeaderView.vue';
 
 const route = useRoute();
 const articleId = ref(route.params.id)
@@ -26,7 +27,7 @@ const article = ref({
     sub_topic: 'subbb',
     tags: ['tag1', 'tag2', 'tag3', 'tag4'],
     // imageUrl: 'https://img.toy-people.com/member/16255662087.png',
-    imageUrl: 'https://img.toy-people.com/member/17056540127_1200.jpg',
+    image_url: 'https://img.toy-people.com/member/17056540127_1200.jpg',
     content: [
         '<div>由 Takahiro負責原作、竹村洋平擔任作畫的漫畫《魔都精兵的奴隸》（魔都精兵のスレイブ），劇情講述會將人類傳送至「魔都」的異世界大門隨時會打開，政府為了消滅在魔都中會吃人的怪物「醜鬼」，組織了由女性士兵組成的戰鬥集團「魔防隊」。平凡卻可望成為英雄的男主角「和倉優希」，在一次意外中誤闖魔都，在情急之下和魔防隊第七組組長「羽前京香」簽訂契約，成為擁有特殊能力的奴隸！但京香使用奴隸的代價是....必須獎勵奴隸想要的東西（福利大放送）？</div>',
         '<img style="width:600px; margin: 1rem auto;" src="https://img.toy-people.com/member/17056540127_1200.jpg">',
@@ -176,6 +177,7 @@ const popularArticles = ref([
     <main>
         <div class="main-body">
             <div class="main-body-left">
+                <!-- <CategoryHeader :title="article.title" /> -->
                 <!-- <div style="height: 2rem;">Hot Topics</div>
                 <GridTopicsView :topics="subTopics" />
                 <div style="height: 2rem;"></div>
