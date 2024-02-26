@@ -1,13 +1,13 @@
 <template>
   <div class="menu" @mouseover="showDropdown = true" @mouseleave="showDropdown = false">
-    <div class="menu-title" >
+    <div class="menu-title">
       {{ title }}
     </div>
     <transition name="fade">
       <div v-if="showDropdown" class="dropdown">
         <ul>
           <li @mouseover="showDropdown = true" @mouseleave="showDropdown = false" v-for="(item, index) in menus"
-            :key="index">{{ item }}</li>
+            :key="index">{{ item.displayName }}</li>
         </ul>
       </div>
     </transition>
@@ -17,12 +17,17 @@
 <script setup lang='ts'>
 import { ref } from 'vue'
 
+interface Category {
+  displayName: string,
+  path: string
+}
+
 const showDropdown = ref(false)
 // const emphasize = ref(false)
 
 const props = defineProps<{
   title: string
-  menus: string[]
+  menus: Category[]
 }>()
 </script>
   
@@ -56,6 +61,7 @@ const props = defineProps<{
   /* display: none; */
   background-color: #ffffff;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 5;
 }
 
 .dropdown ul {
@@ -69,6 +75,11 @@ const props = defineProps<{
   cursor: pointer;
 }
 
+.dropdown li:hover {
+  color: red;
+  opacity: 0.7;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s;
@@ -77,5 +88,6 @@ const props = defineProps<{
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
-}</style>
+}
+</style>
   

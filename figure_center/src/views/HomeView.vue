@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HoverExpandMenuButton from '../components/button/HoverExpandMenuButton.vue'
+
 import HomeBanner from '@/components/HomeBanner.vue'
 import HomeArticleListItem from '@/components/HomeArticleListItem.vue';
 import HomeSimpleArticleListItem from '@/components/HomeSimpleArticleListItem.vue';
@@ -7,10 +7,16 @@ import EmbedView from '@/components/EmbedView.vue'
 import GridTopicsView from '@/components/GridTopicsView.vue';
 import WrapTags from '@/components/WrapTags.vue';
 import BackgroundImageTextArticle from '@/components/icons/BackgroundImageTextArticle.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import router from '@/router';
 import FooterView from '@/components/FooterView.vue';
 import PagingView from '@/components/PagingView.vue';
+import TopIconView from '@/components/TopIconView.vue';
+import HeaderMenu from '@/components/HeaderMenu.vue';
+
+onMounted(() => {
+  axios
+})
 
 function navigate_article(path: string) {
   router.push('article/' + path)
@@ -29,10 +35,6 @@ const pages = ref({
   currentPage: 1
 })
 
-const menu1 = {
-  title: "Feature",
-  menus: ["Good Smile", "BANDAI", "GK"]
-}
 const imageUrl = 'https://img.toy-people.com/member/170816079048_1200.jpg'
 const bannerImages = {
   main: imageUrl,
@@ -148,22 +150,9 @@ const popularArticles = ref([
 
 <template>
   <div class="main-holder"><div class="inner-main-holder">
-  <div id="logo" class="left">
-    <a href="//www.toy-people.com/" onclick="ga('send', 'event', 'PC_Menu_Top_Logo', 'click');"><img
-        src="//www.toy-people.com/img/logo.svg" alt="玩具人Toy People News" title="玩具人Toy People News" width="157"
-        height="49"></a>
-  </div>
+  <TopIconView />
   <header class="header-block">
-    <div class="header-menu-bar">
-      <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-      <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-      <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-      <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-      <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-      <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-      <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-      <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-    </div>
+    <HeaderMenu />
   </header>
   
   <main>
@@ -208,24 +197,14 @@ const popularArticles = ref([
 </template>
 
 <style scoped>
+.left {
+  display: flex;
+  justify-content: space-around;
+}
+
 .header-block {
   width: 100%;
   min-width: 1280px;
-}
-
-.header-menu-bar {
-  display: flex;
-  justify-content: space-between;
-  /* padding-right: 20px; */
-  width: 100%;
-  background-color: red;
-}
-
-.menu-button {
-  flex: 1;
-  padding-left: 10px;
-  padding-right: 10px;
-  z-index: 20;
 }
 
 .banner {

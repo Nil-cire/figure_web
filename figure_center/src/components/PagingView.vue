@@ -102,7 +102,7 @@ const isLast = computed(() => {
 }
 
 .button-unselected {
-    background-color: red;
+    background-color: gray;
     color: white;
     /* aspect-ratio: 1/1; */
     padding: 1rem;
@@ -140,7 +140,7 @@ const isLast = computed(() => {
     /* aspect-ratio: 1/1; */
     padding: 1rem;
     margin: 0 0.25rem 0 0.25rem;
-    /* border-radius: 1rem; */
+    border-radius: 2rem;
     font-size: larger;
     font-weight: bold;
 }

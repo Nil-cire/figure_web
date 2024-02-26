@@ -13,6 +13,8 @@ import { ref } from 'vue';
 import router from '@/router';
 import { useRoute } from 'vue-router';
 import CategoryHeader from '@/components/CategoryHeaderView.vue';
+import TopIconView from '@/components/TopIconView.vue';
+import HeaderMenu from '@/components/HeaderMenu.vue';
 
 const route = useRoute();
 const articleId = ref(route.params.id)
@@ -159,22 +161,9 @@ const popularArticles = ref([
 <template>
     <div class="main-holder">
         <div class="inner-main-holder">
-            <div id="logo" class="left">
-                <a href="//www.toy-people.com/" onclick="ga('send', 'event', 'PC_Menu_Top_Logo', 'click');"><img
-                        src="//www.toy-people.com/img/logo.svg" alt="玩具人Toy People News" title="玩具人Toy People News"
-                        width="157" height="49"></a>
-            </div>
+            <TopIconView />
             <header class="header-block">
-                <div class="header-menu-bar">
-                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-                    <HoverExpandMenuButton class="menu-button" :title="menu1.title" :menus="menu1.menus" />
-                </div>
+                <HeaderMenu />
                 <ArticleBanner class="banner" :article="article" />
             </header>
             <main>
