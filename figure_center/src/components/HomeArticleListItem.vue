@@ -1,22 +1,41 @@
 <template>
-    <div class="blog-unit">
+    <div @click="onArticleClick()" class="blog-unit">
         <div class="image-container">
-            <img :src="imageSrc" alt="Blog Image">
+            <img :src="article?.image_url" alt="figure image">
         </div>
         <div class="content-container">
-            <h3>{{ title }}</h3>
-            <p class="timestamp">{{ timestamp }}</p>
+            <h3>{{ article?.title }}</h3>
+            <p class="timestamp">{{ article?.timestamp }}</p>
         </div>
     </div>
 </template>
   
 <script setup lang="ts">
 
+interface Article {
+    "id": number,
+    "title": string,
+    "timestamp": string,
+    "main_topic": string,
+    "sub_topic": string,
+    "content": string[],
+    "tags": string[],
+    "release": string,
+    "image_url": string,
+    "twitter": string
+}
+
 const props = defineProps<{
-    imageSrc: string,
-    title: string,
-    timestamp: string,
+    article: Article | undefined
 }>()
+
+const emit = defineEmits<{
+    onArticleClick: [article: Article | undefined]
+}>()
+
+function onArticleClick() {
+    emit('onArticleClick', props?.article)
+}
 
 </script>
   

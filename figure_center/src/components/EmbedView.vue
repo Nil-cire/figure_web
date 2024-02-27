@@ -4,7 +4,7 @@ import Tweet from 'vue-tweet';
 // declare var require: any
 
 const props = defineProps<{
-    twitterId: string
+    twitterId: string | undefined
 }>()
 
 // const TwitterWidgetsLoader = require('twitter-widgets');

@@ -7,26 +7,62 @@ import EmbedView from '@/components/EmbedView.vue'
 import GridTopicsView from '@/components/GridTopicsView.vue';
 import WrapTags from '@/components/WrapTags.vue';
 import BackgroundImageTextArticle from '@/components/icons/BackgroundImageTextArticle.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import router from '@/router';
 import FooterView from '@/components/FooterView.vue';
 import PagingView from '@/components/PagingView.vue';
 import TopIconView from '@/components/TopIconView.vue';
 import HeaderMenu from '@/components/HeaderMenu.vue';
+import axios from 'axios'
+import { useArticlesStore } from '@/stores/articles';
+// import { useRouter } from 'vue-router';
+
+const articlesStore = useArticlesStore()
+// const router = useRouter()
+
+interface Article {
+    "id": number,
+    "title": string,
+    "timestamp": string,
+    "main_topic": string,
+    "sub_topic": string,
+    "content": string[],
+    "tags": string[],
+    "release": string,
+    "image_url": string,
+    "twitter": string
+}
 
 onMounted(() => {
-  axios
+  getHomeData()
 })
 
-function navigate_article(path: string) {
+watch(router, () => {
+  getHomeData()
+})
+
+async function getHomeData() {
+  console.log(articlesStore.articles.length)
+  if (articlesStore.articles.length != 0) {
+    homeArticles.value = articlesStore.articles
+    return
+  } 
+  const homeDataResponse = await axios.get('http://127.0.0.1:8000');
+  const articlesData = homeDataResponse.data['data']
+  homeArticles.value = articlesData
+  articlesStore.addArticles(articlesData)
+
+}
+
+function navigate_article(path: string | number) {
   router.push('article/' + path)
 }
 
 function navigateByTpye(type: string, path: string) {
   if (type == 'category') {
-    router.push('category/' + path)
+    router.push('/category/' + path)
   } else {
-    router.push('article/' + path)
+    router.push('/article/' + path)
   }
 }
 
@@ -42,11 +78,7 @@ const bannerImages = {
 }
 
 const articleImageSrc = 'https://img.toy-people.com/member/170806416696_1200.jpg'
-const homeArticle = {
-  imageSrc: articleImageSrc,
-  title: "壽屋『我想成為影之強者！戴爾塔 ED Ver.』1/7比例模型 再現可愛又不失性感的豪放M字蹲！",
-  timestamp: "預定發售：2024年9月",
-}
+const homeArticles = ref([] as Article[])
 
 const bannerTitles = {
   main: 'main title',
@@ -164,9 +196,8 @@ const popularArticles = ref([
         <GridTopicsView :topics="subTopics" />
         <div style="height: 2rem;"></div>
         <div style="height: 2rem;">Latest News</div>
-        <template v-for="n in 10">
-          <HomeArticleListItem class="body-left-article" :imageSrc="homeArticle.imageSrc" :title="homeArticle.title"
-            :timestamp="homeArticle.timestamp" />
+        <template v-for="article in homeArticles">
+          <HomeArticleListItem @on-article-click="(article) => { navigate_article(article.id) }" class="body-left-article" :article="article" />
         </template>
         <PagingView :counts="pages.counts" :current-page="pages.currentPage" />
       </div>

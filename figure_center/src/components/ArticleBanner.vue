@@ -1,37 +1,53 @@
 <script setup lang="ts">
 
+interface Article {
+    "id": number,
+    "title": string,
+    "timestamp": string,
+    "main_topic": string,
+    "sub_topic": string,
+    "content": string[],
+    "tags": string[],
+    "release": string,
+    "image_url": string,
+    "twitter": string
+}
+
 const props = defineProps<{
-    article: {
-        title: string,
-        main_topic: string,
-        sub_topic: string,
-        tags: string[],
-        image_url: string,
-        content: string[],
-        timestamp: string,
-        twitter: string,
-    }
+    article: Article | undefined
 }>()
+
+function toDateTime(timestamp: string | undefined) {
+    if (timestamp == undefined) {
+        return ""
+    } else {
+        var date_ob = new Date(parseInt(timestamp) * 1000);
+        const year = date_ob.getFullYear();
+        const month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+        const date = ("0" + date_ob.getDate()).slice(-2);
+        return `${year}-${month}-${date}`
+    }
+}
 
 </script>
 
 <template>
     <div class="holder">
-        <img :src="article.image_url">
+        <img :src="article?.image_url">
         <dic class="image-cover"></dic>
         <div class="content-holder">
             <div class="main-tag-holder">
-                <div class="main-tag"> {{ article.main_topic }}</div>
-            <div v-if="article.sub_topic != ''" class="main-tag-secondary"> {{ article.sub_topic }} </div>
+                <div class="main-tag"> {{ article?.main_topic }}</div>
+            <div v-if="article?.sub_topic != ''" class="main-tag-secondary"> {{ article?.sub_topic }} </div>
             </div>
             <div class="sub-tag-holder">
-                <template v-for="tag in article.tags">
+                <template v-for="tag in article?.tags">
                     <div class="sub-tag">{{ tag }}</div>
                 </template>
             </div>
 
-            <div class="title">{{ article.title }}</div>
-            <div class="date">{{ article.timestamp }}</div>
+            <div class="title">{{ article?.title }}</div>
+            <div class="date">{{ toDateTime(article?.timestamp) }}</div>
         </div>
     </div>
 </template>

@@ -9,36 +9,65 @@ import WrapTags from '@/components/WrapTags.vue';
 import BackgroundImageTextArticle from '@/components/icons/BackgroundImageTextArticle.vue';
 import ArticleBanner from '@/components/ArticleBanner.vue'
 import FooterView from '@/components/FooterView.vue';
-import { ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import router from '@/router';
 import { useRoute } from 'vue-router';
 import CategoryHeader from '@/components/CategoryHeaderView.vue';
 import TopIconView from '@/components/TopIconView.vue';
 import HeaderMenu from '@/components/HeaderMenu.vue';
+import { useArticlesStore } from '@/stores/articles'
+import axios from 'axios'
 
+const articlesStore = useArticlesStore();
 const route = useRoute();
-const articleId = ref(route.params.id)
+const articleId = ref(route.params.id as string | number)
 
-function navigate_article(path: string) {
-    router.push('article/' + path)
+watch(route, () => {
+    article.value = undefined
+    articleId.value = route.params.id as string
+    getArticle(Number(articleId.value))
+})
+
+function navigate_article(path: string | number) {
+    router.push('/article/' + path)
 }
 
-const article = ref({
-    title: 'loooooooooooooooooog tittttttttttttttttttttle heeeeeeeeeeeeeeeeeeeeeeeeeeeeeere',
-    main_topic: 'figure',
-    sub_topic: 'subbb',
-    tags: ['tag1', 'tag2', 'tag3', 'tag4'],
-    // imageUrl: 'https://img.toy-people.com/member/16255662087.png',
-    image_url: 'https://img.toy-people.com/member/17056540127_1200.jpg',
-    content: [
-        '<div>由 Takahiro負責原作、竹村洋平擔任作畫的漫畫《魔都精兵的奴隸》（魔都精兵のスレイブ），劇情講述會將人類傳送至「魔都」的異世界大門隨時會打開，政府為了消滅在魔都中會吃人的怪物「醜鬼」，組織了由女性士兵組成的戰鬥集團「魔防隊」。平凡卻可望成為英雄的男主角「和倉優希」，在一次意外中誤闖魔都，在情急之下和魔防隊第七組組長「羽前京香」簽訂契約，成為擁有特殊能力的奴隸！但京香使用奴隸的代價是....必須獎勵奴隸想要的東西（福利大放送）？</div>',
-        '<img style="width:600px; margin: 1rem auto;" src="https://img.toy-people.com/member/17056540127_1200.jpg">',
-        '<div>由 Takahiro負責原作、竹村洋平擔任作畫的漫畫《魔都精兵的奴隸》（魔都精兵のスレイブ），劇情講述會將人類傳送至「魔都」的異世界大門隨時會打開，政府為了消滅在魔都中會吃人的怪物「醜鬼」，組織了由女性士兵組成的戰鬥集團「魔防隊」。平凡卻可望成為英雄的男主角「和倉優希」，在一次意外中誤闖魔都，在情急之下和魔防隊第七組組長「羽前京香」簽訂契約，成為擁有特殊能力的奴隸！但京香使用奴隸的代價是....必須獎勵奴隸想要的東西（福利大放送）？</div>',
-        '<img style="width:600px; margin: 1rem auto;" src="https://img.toy-people.com/member/17056540127_1200.jpg">',
-    ],
-    timestamp: '2024/02/20',
-    twitter: '1748004348263850024'
+const more_display_max = 10
+
+interface Article {
+    "id": number,
+    "title": string,
+    "timestamp": string,
+    "main_topic": string,
+    "sub_topic": string,
+    "content": string[],
+    "tags": string[],
+    "release": string,
+    "image_url": string,
+    "twitter": string
+}
+
+const article = ref<Article>()
+const more_articles = ref<Article[]>([])
+
+onMounted(() => {
+    getArticle(Number(articleId.value))
 })
+
+async function getArticle(articleId: number) {
+    const articles = articlesStore.articles
+    if (articles.length == 0){
+        const homeDataResponse = await axios.get(`http://127.0.0.1:8000/article/${articleId}`);
+        const articlesData = homeDataResponse.data['data']
+        articlesStore.articles = articlesData;
+        article.value = articlesData.find(item => item.id == articleId)
+        more_articles.value = articlesData.filter(item => item.id != articleId)
+    } else {
+        article.value = articles.find(item => item.id == articleId)
+        more_articles.value = articles.filter(item => item.id != articleId)
+    }
+    window.scrollTo(0, 0);
+}
 
 const menu1 = {
     title: " Feature",
@@ -180,7 +209,7 @@ const popularArticles = ref([
                         :title="homeArticle.title" :timestamp="homeArticle.timestamp" />
                 </template> -->
                             <div>
-                                <template v-for="(content, index) in article.content">
+                                <template v-for="(content, index) in article?.content">
                                     <div>
                                         <div v-if="content.includes('<img')" class="article-image-content" v-html="content">
                                         </div>
@@ -189,23 +218,22 @@ const popularArticles = ref([
                                 </template>
                             </div>
                             <!-- <div class="article-content" v-html="article.content + article.content + article.content"></div> -->
-                            <div v-if="article.twitter != ''" class="twitter-holder">
+                            <!-- <div v-if="article?.twitter != ''" class="twitter-holder">
                                 <div style="flex: 1"></div>
-                                <EmbedView class="twitter" :twitter-id="article.twitter" />
+                                <EmbedView class="twitter" :twitter-id="article?.twitter" />
                                 <div style="flex: 1"></div>
-                            </div>
+                            </div> -->
 
                             <div style="margin: 1.5rem 2rem 0.5rem 2rem;">
                                 <div>Relative:</div>
-                                <WrapTags :tags="tags" style="margin-top: 0.5rem;"/>
+                                <WrapTags :tags="tags" style="margin-top: 0.5rem;" />
                             </div>
                         </div>
 
                         <CategoryHeader style="margin-top: 2rem;" :title="readMore" />
                         <div style="margin-top: 1rem;">
-                            <template v-for="n in 10">
-                                <HomeArticleListItem class="body-left-article" :imageSrc="article.image_url"
-                                    :title="article.title" :timestamp="article.timestamp" />
+                            <template v-for="article, index in more_articles">
+                                <HomeArticleListItem @on-article-click="navigate_article(article.id)" v-if="index < more_display_max" class="body-left-article" :article="article" />
                             </template>
                         </div>
                     </div>
@@ -275,10 +303,10 @@ const popularArticles = ref([
 }
 
 .main-body-left {
-    
+
     /* flex: 4; */
     width: 1000px;
-    
+
     /* width: 100%; */
 }
 
