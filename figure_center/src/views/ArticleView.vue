@@ -36,6 +36,10 @@ function navigate_article(path: string | number) {
     router.push('/article/' + path)
 }
 
+function navigate_category(category: string) {
+  router.push('/category/' + category)
+}
+
 const more_display_max = 10
 
 interface Article {
@@ -96,7 +100,7 @@ async function getReadMoreArticles(tag: string, articleId: string) {
     console.log(`moreArticles = ${moreArticles.length}`)
     if (moreArticles.length < 10) {
         console.log(`moreArticles < 10`)
-        const posts = await getPostsByMainTag(tag)
+        const posts = await getPostsByMainTag(tag, 1)
         const filter_post = posts.filter((item) => item.id != articleId)
         more_articles.value = filter_post
         articlesStore.addArticles(posts)
@@ -210,7 +214,7 @@ const popularArticles = ref([
         <div class="inner-main-holder">
             <TopIconView />
             <header class="header-block">
-                <HeaderMenu />
+                <HeaderMenu @menu-click="(category) => navigate_category(category)"/>
                 <ArticleBanner class="banner" :article="article" />
             </header>
             <main>

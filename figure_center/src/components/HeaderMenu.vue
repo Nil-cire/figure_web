@@ -1,7 +1,7 @@
 <template>
         <div class="header-menu-bar">
             <template v-for="menu in menus" :key="menu.id">
-                <HoverExpandMenuButton class="menu-button" :title="menu.displayName" :menus="menu.categories" />
+                <HoverExpandMenuButton @click="onMenuClicked(menu.displayName)" class="menu-button" :title="menu.displayName" :menus="menu.categories" />
             </template>
         </div>
 </template>
@@ -9,6 +9,14 @@
 <script setup lang="ts">
 
 import HoverExpandMenuButton from '../components/button/HoverExpandMenuButton.vue'
+
+const emit = defineEmits<{
+    menuClick: [name: string]
+}>()
+
+function onMenuClicked(category: string) {
+    emit('menuClick', category)
+}
 
 const menus = [
     {

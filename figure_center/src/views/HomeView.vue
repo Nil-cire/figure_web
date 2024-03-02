@@ -68,7 +68,6 @@ async function _getHomeData() {
 }
 
 async function _getPostData() {
-  console.log(`getPostData = ${articlesStore.articles.length}`)
   if (articlesStore.upToDate == true) {
     homeArticles.value = articlesStore.articles
     twitter_art.value = articlesStore.twitter_art
@@ -100,7 +99,6 @@ async function _getPostData() {
 async function getMorePosts() {
   page += 1
   const posts = await getPosts(page)
-  console.log(`getMorePage = ${posts}`)
   if (posts.length < 20) {
     pageEnds.value = true
   }
@@ -119,6 +117,10 @@ function navigate_article(path: string | number) {
   router.push('article/' + path)
 }
 
+function navigate_category(category: string) {
+  router.push('/category/' + category)
+}
+
 function navigateByTpye(type: string, path: string) {
   if (type == 'category') {
     router.push('/category/' + path)
@@ -127,10 +129,10 @@ function navigateByTpye(type: string, path: string) {
   }
 }
 
-const pages = ref({
-  counts: 12,
-  currentPage: 1
-})
+// const pages = ref({
+//   counts: 12,
+//   currentPage: 1
+// })
 
 const imageUrl = 'https://img.toy-people.com/member/170816079048_1200.jpg'
 const bannerImages = {
@@ -138,16 +140,12 @@ const bannerImages = {
   subs: [imageUrl, imageUrl, imageUrl, imageUrl]
 }
 
-const articleImageSrc = 'https://img.toy-people.com/member/170806416696_1200.jpg'
 const homeArticles = ref([] as Article[])
 
 const bannerTitles = {
   main: 'main title',
   subs: ['sub title 1', 'sub title 2', 'sub title 3', 'sub title 4']
 }
-
-const twitterIdArt = ref('1759401929308885060')
-const twitterIdCosplay = ref('1758975904330752312')
 
 const imageUrlTopic = 'https://img.toy-people.com/member/17080985107_1200.jpg'
 const subTopics = [
@@ -245,7 +243,7 @@ const popularArticles = ref([
   <div class="main-holder"><div class="inner-main-holder">
   <TopIconView />
   <header class="header-block">
-    <HeaderMenu />
+    <HeaderMenu @menu-click="(category) => navigate_category(category)" />
   </header>
   
   <main>
