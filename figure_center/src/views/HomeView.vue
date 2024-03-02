@@ -42,17 +42,30 @@ watch(router, () => {
 })
 
 async function getHomeData() {
-  console.log(articlesStore.articles.length)
+  console.log(`getHomeData = ${articlesStore.articles.length}`)
   if (articlesStore.articles.length != 0) {
     homeArticles.value = articlesStore.articles
+    twitter_art.value = articlesStore.twitter_art
+    twitter_consplay.value = articlesStore.twitter_cosplay
     return
-  } 
-  const homeDataResponse = await axios.get('http://127.0.0.1:8000');
-  const articlesData = homeDataResponse.data['data']
-  homeArticles.value = articlesData
-  articlesStore.addArticles(articlesData)
-
+  } else {
+    const homeDataResponse = await axios.get('http://127.0.0.1:8000/home');
+    const homeData = homeDataResponse.data['data']
+    const homeDataArticles = homeData['articles'] as Article[]
+    const homeDataTwitterArt = homeData['art']
+    const homeDataTwitterCosplay = homeData['cosplay']
+    homeDataArticles.sort((a, b) => b.id - a.id)
+    homeArticles.value = homeDataArticles
+    twitter_art.value = homeDataTwitterArt
+    twitter_consplay.value =homeDataTwitterCosplay
+    articlesStore.addArticles(homeDataArticles)
+    articlesStore.setTwitterArt(homeDataTwitterArt)
+    articlesStore.setTwitterCosplay(homeDataTwitterCosplay)
+  }
 }
+
+const twitter_art = ref('')
+const twitter_consplay = ref('')
 
 function navigate_article(path: string | number) {
   router.push('article/' + path)
@@ -206,10 +219,10 @@ const popularArticles = ref([
         <WrapTags :tags="tags" />
         <div style="height: 1.5rem;"></div>
         <div>Art Work Of The Day</div>
-        <EmbedView :twitterId="twitterIdArt" />
+        <EmbedView :twitterId="twitter_art" />
         <div style="height: 1rem;"></div>
         <div>Cosplay Of The Day</div>
-        <EmbedView :twitterId="twitterIdCosplay" />
+        <EmbedView :twitterId="twitter_consplay" />
         <div style="height: 1.5rem;"></div>
         <div style="height: 2rem;">Popular</div>
         <template v-for="article in popularArticles">

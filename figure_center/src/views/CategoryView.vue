@@ -15,24 +15,43 @@ import { useRoute } from 'vue-router';
 import CategoryHeader from '@/components/CategoryHeaderView.vue';
 import TopIconView from '@/components/TopIconView.vue';
 import HeaderMenu from '@/components/HeaderMenu.vue';
+import { useArticlesStore } from '@/stores/articles'
+import { useCategoryArticlesStore } from '@/stores/category_article'
+import axios from 'axios'
 
 const route = useRoute();
 const articleId = ref(route.params.id)
-
 const category = ref(route.params.name)
+// const articlesStore = useArticlesStore()
+const articlesStore = useCategoryArticlesStore()
 
 // const props = defineProps<{
 // }>()
 
 function navigate_article(path: string) {
-    router.push('article/' + path)
+    router.push('/article/' + path)
 }
 
 function navigate_category(path: string) {
-    router.push('category' + '/' + path)
+    router.push('/category/' + path)
 }
 
-const articles = ref([
+async function getArticles(category: string) {
+    const articles = articlesStore.articles.get(category)
+    if (articles == undefined){
+        const articleDataResponse = await axios.get(`http://127.0.0.1:8000/category/${category}`);
+        const articlesData = articleDataResponse.data['data']
+        articlesStore.addArticles(category, articlesData);
+        articles_ref.value = articlesData
+    } else {
+        articles_ref.value = articles
+    }
+    window.scrollTo(0, 0);
+}
+
+const articles_ref = ref<Article[]>([])
+
+const articles_old = ref([
     {
         title: 'loooooooooooooooooog tittttttttttttttttttttle heeeeeeeeeeeeeeeeeeeeeeeeeeeeeere',
         main_topic: 'figure',
@@ -230,6 +249,19 @@ const popularArticles = ref([
         link: ''
     },
 ])
+
+interface Article {
+    "id": number,
+    "title": string,
+    "timestamp": string,
+    "main_topic": string,
+    "sub_topic": string,
+    "content": string[],
+    "tags": string[],
+    "release": string,
+    "image_url": string,
+    "twitter": string
+}
 
 </script>
 

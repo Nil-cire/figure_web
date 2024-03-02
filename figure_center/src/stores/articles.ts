@@ -25,6 +25,18 @@ export const useArticlesStore = defineStore('articles', () => {
             articles.value.push(article)
         })
     }
+
+    const twitter_art = ref('')
+
+    function setTwitterArt(id: string) {
+        twitter_art.value = id
+    }
+
+    const twitter_cosplay = ref('')
+
+    function setTwitterCosplay(id: string) {
+        twitter_cosplay.value = id
+    }
   
-    return { articles, addArticle, addArticles }
+    return { articles, addArticle, addArticles, twitter_art, setTwitterArt, twitter_cosplay, setTwitterCosplay }
   })
