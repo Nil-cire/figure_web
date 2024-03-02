@@ -15,13 +15,18 @@ import TopIconView from '@/components/TopIconView.vue';
 import HeaderMenu from '@/components/HeaderMenu.vue';
 import axios from 'axios'
 import { useArticlesStore } from '@/stores/articles';
+import { useHomeStore } from '@/stores/home';
 // import { useRouter } from 'vue-router';
+import { Parse } from 'parse/dist/parse.min.js';
+import { getPosts } from '@/data/post';
+import { getHomeData } from '@/data/home';
 
 const articlesStore = useArticlesStore()
+const homeStore = useHomeStore()
 // const router = useRouter()
 
 interface Article {
-    "id": number,
+    "id": string,
     "title": string,
     "timestamp": string,
     "main_topic": string,
@@ -34,34 +39,77 @@ interface Article {
 }
 
 onMounted(() => {
-  getHomeData()
+  _getPostData()
+  _getHomeData()
 })
 
-watch(router, () => {
-  getHomeData()
-})
+// watch(router, () => {
+//   _getPostData()
+//   _getHomeData()
+// })
 
-async function getHomeData() {
-  console.log(`getHomeData = ${articlesStore.articles.length}`)
-  if (articlesStore.articles.length != 0) {
+let page = 1;
+
+const pageEnds = ref(false)
+
+async function _getHomeData() {
+  const init = homeStore.upToDate
+  console.log(`init = ${init}`)
+  if (!init) {
+    const homeData = await getHomeData()
+    twitter_art.value = homeData.twitter_art
+    twitter_consplay.value = homeData.twitter_cosplay
+    homeStore.twitter_art = homeData.twitter_art
+    homeStore.twitter_cosplay = homeData.twitter_cosplay
+  } else {
+    twitter_art.value = homeStore.twitter_art
+    twitter_consplay.value = homeStore.twitter_cosplay
+  }
+}
+
+async function _getPostData() {
+  console.log(`getPostData = ${articlesStore.articles.length}`)
+  if (articlesStore.upToDate == true) {
     homeArticles.value = articlesStore.articles
     twitter_art.value = articlesStore.twitter_art
     twitter_consplay.value = articlesStore.twitter_cosplay
     return
   } else {
-    const homeDataResponse = await axios.get('http://127.0.0.1:8000/home');
-    const homeData = homeDataResponse.data['data']
-    const homeDataArticles = homeData['articles'] as Article[]
-    const homeDataTwitterArt = homeData['art']
-    const homeDataTwitterCosplay = homeData['cosplay']
-    homeDataArticles.sort((a, b) => b.id - a.id)
-    homeArticles.value = homeDataArticles
-    twitter_art.value = homeDataTwitterArt
-    twitter_consplay.value =homeDataTwitterCosplay
-    articlesStore.addArticles(homeDataArticles)
-    articlesStore.setTwitterArt(homeDataTwitterArt)
-    articlesStore.setTwitterCosplay(homeDataTwitterCosplay)
+    // back4app
+    const posts = await getPosts(1)
+    homeArticles.value = posts
+    articlesStore.addArticles(posts)
+    articlesStore.upToDate = true
+    // console.log(posts[0].get('createdAt'))
+    // axiois
+    // const homeDataResponse = await axios.get('http://127.0.0.1:8000/home');
+    // const homeData = homeDataResponse.data['data']
+    // const homeDataArticles = homeData['articles'] as Article[]
+    // const homeDataTwitterArt = homeData['art']
+    // const homeDataTwitterCosplay = homeData['cosplay']
+    // homeDataArticles.sort((a, b) => b.id - a.id)
+    // homeArticles.value = homeDataArticles
+    // twitter_art.value = homeDataTwitterArt
+    // twitter_consplay.value =homeDataTwitterCosplay
+    // articlesStore.addArticles(homeDataArticles)
+    // articlesStore.setTwitterArt(homeDataTwitterArt)
+    // articlesStore.setTwitterCosplay(homeDataTwitterCosplay)
   }
+}
+
+async function getMorePosts() {
+  page += 1
+  const posts = await getPosts(page)
+  console.log(`getMorePage = ${posts}`)
+  if (posts.length < 20) {
+    pageEnds.value = true
+  }
+  const currentList = homeArticles.value
+  posts.forEach(element => {
+    currentList.push(element)
+  });
+  homeArticles.value = currentList
+  articlesStore.addArticles(posts)
 }
 
 const twitter_art = ref('')
@@ -212,7 +260,12 @@ const popularArticles = ref([
         <template v-for="article in homeArticles">
           <HomeArticleListItem @on-article-click="(article) => { navigate_article(article.id) }" class="body-left-article" :article="article" />
         </template>
-        <PagingView :counts="pages.counts" :current-page="pages.currentPage" />
+        <div v-if="pageEnds == false" style="display: flex;">
+          <div style="width: 33%;"></div>
+          <div class="more-btn" @click="getMorePosts()"> more </div>
+          <div style="width: 33%;"></div>
+        </div>
+        <!-- <PagingView :counts="pages.counts" :current-page="pages.currentPage" /> -->
       </div>
       <div class="main-body-right">
         <div>Tags</div>
@@ -290,5 +343,24 @@ const popularArticles = ref([
 .body-right-article {
   width: 100%;
   margin-bottom: 2rem;
+}
+
+.more-btn {
+  width: 33%;
+  background-color: red;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  padding: auto auto;
+  color: white;
+  margin-top: 1rem;
+}
+
+.more-btn:hover {
+  cursor: pointer;
+  opacity: 0.7;
 }
 </style>

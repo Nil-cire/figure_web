@@ -17,15 +17,19 @@ import TopIconView from '@/components/TopIconView.vue';
 import HeaderMenu from '@/components/HeaderMenu.vue';
 import { useArticlesStore } from '@/stores/articles'
 import axios from 'axios'
+// import Article from '@/class/article'
+import { getPosts, getPostsByMainTag, getPostsById } from '@/data/post';
+import WelcomeItem from '@/components/WelcomeItem.vue';
+
 
 const articlesStore = useArticlesStore();
 const route = useRoute();
-const articleId = ref(route.params.id as string | number)
+const articleId = ref(route.params.id as string)
 
 watch(route, () => {
     article.value = undefined
     articleId.value = route.params.id as string
-    getArticle(Number(articleId.value))
+    getArticle(articleId.value)
 })
 
 function navigate_article(path: string | number) {
@@ -35,7 +39,7 @@ function navigate_article(path: string | number) {
 const more_display_max = 10
 
 interface Article {
-    "id": number,
+    "id": string,
     "title": string,
     "timestamp": string,
     "main_topic": string,
@@ -51,22 +55,60 @@ const article = ref<Article>()
 const more_articles = ref<Article[]>([])
 
 onMounted(() => {
-    getArticle(Number(articleId.value))
+    getArticle(articleId.value)
 })
 
-async function getArticle(articleId: number) {
-    const articles = articlesStore.articles
-    if (articles.length == 0){
-        const homeDataResponse = await axios.get(`http://127.0.0.1:8000/article/${articleId}`);
-        const articlesData = homeDataResponse.data['data']
-        articlesStore.articles = articlesData;
-        article.value = articlesData.find(item => item.id == articleId)
-        more_articles.value = articlesData.filter(item => item.id != articleId)
+async function getArticle(articleId: string) {
+    const storeArticles = articlesStore.articles
+    const storeArticle = storeArticles.find(item => item.id == articleId)
+    if (storeArticle == undefined) {
+        console.log("no article, fetching...")
+        const post = await getPostsById(articleId)
+        article.value = post
+        articlesStore.addArticle(post)
+        getReadMoreArticles(post.main_topic, articleId)
     } else {
-        article.value = articles.find(item => item.id == articleId)
-        more_articles.value = articles.filter(item => item.id != articleId)
+        console.log("article found")
+        article.value = storeArticle
+        getReadMoreArticles(storeArticle.main_topic, articleId)
     }
+
+
+    // const articles = articlesStore.articles
+    // if (articles.length == 0){
+    //     const homeDataResponse = await axios.get(`http://127.0.0.1:8000/article/${articleId}`);
+    //     const articlesData = homeDataResponse.data['data']
+    //     articlesStore.articles = articlesData;
+    //     article.value = articlesData.find(item => item.id == articleId)
+    //     more_articles.value = articlesData.filter(item => item.id != articleId)
+    // } else {
+    //     console.log(articles)
+    //     article.value = articles.find(item => item.id == articleId)
+    //     more_articles.value = articles.filter(item => item.id != articleId)
+    // }
     window.scrollTo(0, 0);
+}
+
+async function getReadMoreArticles(tag: string, articleId: string) {
+    console.log(`tag = ${tag}`)
+    const storeArticles = articlesStore.articles
+    const moreArticles = storeArticles.filter(item => item.main_topic == tag)
+    console.log(`moreArticles = ${moreArticles.length}`)
+    if (moreArticles.length < 10) {
+        console.log(`moreArticles < 10`)
+        const posts = await getPostsByMainTag(tag)
+        const filter_post = posts.filter((item) => item.id != articleId)
+        more_articles.value = filter_post
+        articlesStore.addArticles(posts)
+    } else {
+        console.log(`moreArticles >= 10`)
+        const filter_post = moreArticles.filter((item) => item.id != articleId)
+        more_articles.value = filter_post
+    }
+}
+
+function imageStyle(url: string): string {
+    return `<img style="width:600px; margin: 1rem auto;" src="${url}">`
 }
 
 const menu1 = {
@@ -91,33 +133,9 @@ const bannerTitles = {
     subs: ['sub title 1', 'sub title 2', 'sub title 3', 'sub title 4']
 }
 
-const twitterIdArt = ref('1759401929308885060')
-const twitterIdCosplay = ref('1758975904330752312')
 const readMore = "Read more"
 
 const imageUrlTopic = 'https://img.toy-people.com/member/17080985107_1200.jpg'
-const subTopics = [
-    {
-        title: "title1",
-        imageUrl: imageUrlTopic,
-        link: ''
-    },
-    {
-        title: "title2",
-        imageUrl: imageUrlTopic,
-        link: ''
-    },
-    {
-        title: "title3",
-        imageUrl: imageUrlTopic,
-        link: ''
-    },
-    {
-        title: "title4",
-        imageUrl: imageUrlTopic,
-        link: ''
-    },
-]
 
 const tags = ref([
     {
@@ -211,7 +229,8 @@ const popularArticles = ref([
                             <div>
                                 <template v-for="(content, index) in article?.content">
                                     <div>
-                                        <div v-if="content.includes('<img')" class="article-image-content" v-html="content">
+                                        <div v-if="content.includes('http')" class="article-image-content"
+                                            v-html="imageStyle(content)">
                                         </div>
                                         <div v-else class="article-content" v-html="content"></div>
                                     </div>
@@ -233,7 +252,8 @@ const popularArticles = ref([
                         <CategoryHeader style="margin-top: 2rem;" :title="readMore" />
                         <div style="margin-top: 1rem;">
                             <template v-for="article, index in more_articles">
-                                <HomeArticleListItem @on-article-click="navigate_article(article.id)" v-if="index < more_display_max" class="body-left-article" :article="article" />
+                                <HomeArticleListItem @on-article-click="navigate_article(article.id)"
+                                    v-if="index < more_display_max" class="body-left-article" :article="article" />
                             </template>
                         </div>
                     </div>

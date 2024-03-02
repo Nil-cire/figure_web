@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 interface Article {
-    "id": number,
+    "id": string,
     "title": string,
     "timestamp": string,
     "main_topic": string,
