@@ -22,7 +22,8 @@ interface Article {
     "tags": string[],
     "release": string,
     "image_url": string,
-    "twitter": string
+    "twitter": string,
+    "link": string
 }
 
 const props = defineProps<{

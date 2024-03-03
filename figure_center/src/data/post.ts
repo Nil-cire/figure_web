@@ -34,6 +34,7 @@ export async function getPosts(page: number) {
             release: post.release,
             image_url: post.image_url,
             twitter: post.twitter,
+            link: post.link
         }
         postList.push(postVo)
     })
@@ -61,6 +62,7 @@ export async function getPostsByMainTag(tag: string, page: number) {
             release: post.release,
             image_url: post.image_url,
             twitter: post.twitter,
+            link: post.link
         }
         postList.push(postVo)
     })
@@ -84,6 +86,7 @@ export async function getPostsById(id: string) {
         release: object.release,
         image_url: object.image_url,
         twitter: object.twitter,
+        link: object.link
     }
 }
 
@@ -108,6 +111,7 @@ export async function getPostsBySubTag(tag: string, page: number) {
             release: post.release,
             image_url: post.image_url,
             twitter: post.twitter,
+            link: post.link
         }
         postList.push(postVo)
     })

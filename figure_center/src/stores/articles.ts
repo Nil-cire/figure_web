@@ -13,6 +13,7 @@ interface Article {
     "release": string,
     "image_url": string,
     "twitter": string,
+    "link": string
     // "read": boolean
 }
 

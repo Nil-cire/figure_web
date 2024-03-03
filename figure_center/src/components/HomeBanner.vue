@@ -1,29 +1,61 @@
 <template>
   <div class="banner">
-    <div class="large-image" @click="handleClick(category, 'category01')">
-      <img :src="largeImageSrc" alt="Large Image">
-      <div class="overlay-main">{{ mainTitle }}</div>
+    <div class="large-image" @click="onBannerClick(props.articles[0].id)">
+      <img :src="_getArticleImageOrEmpty(0)" alt="Large Image">
+      <div class="overlay-main">{{ _getArticleTitleOrEmpty(0) }}</div>
     </div>
     <div class="small-images">
-      <div v-for="(image, index) in smallImages" :key="index" class="small-image" @click="handleClick(article, path)">
-        <img :src="image" alt="Small Image">
-        <div class="overlay-sub">{{ subTitles[index] }}</div>
+      <div v-for="(article, index) in props.articles.splice(1,5)" :key="index" class="small-image" @click="onBannerClick(article.id)">
+          <img :src="article.image_url" alt="Small Image">
+          <div class="overlay-sub">{{ article.title }}</div>
       </div>
     </div>
   </div>
 </template>
   
 <script setup lang="ts">
+
+interface Article {
+    "id": string,
+    "title": string,
+    "timestamp": string,
+    "main_topic": string,
+    "sub_topic": string,
+    "content": string[],
+    "tags": string[],
+    "release": string,
+    "image_url": string,
+    "twitter": string,
+    "link": string
+}
+
+function _getArticleImageOrEmpty(index: number) {
+  if (index <= props.articles.length -1) {
+    return props.articles[index].image_url
+  } else {
+    return ""
+  }
+}
+
+function _getArticleTitleOrEmpty(index: number) {
+  if (index <= props.articles.length - 1) {
+    return props.articles[index].title
+  } else {
+    return ""
+  }
+}
+
 const props = defineProps<{
-  largeImageSrc: string
-  mainTitle: string
-  smallImages: string[]
-  subTitles: string[]
+  articles: Article[]
+  // largeImageSrc: string
+  // mainTitle: string
+  // smallImages: string[]
+  // subTitles: string[]
 }>()
 
-const path = "11";
-const article = 'article';
-const category = 'category';
+// const path = "11";
+// const article = 'article';
+// const category = 'category';
 
 // const emit = defineEmits<{
 //   (e: 'bannerClick', id: string): void
@@ -31,12 +63,11 @@ const category = 'category';
 // }>()
 
 const emit = defineEmits<{
-  bannerTypeClick: [type: string, path: string]
+  bannerClick: [articleId: string]
 }>()
 
-function handleClick(type: string, path: string) {
-  // emit('bannerClick', path)
-  emit('bannerTypeClick', type, path)
+function onBannerClick(articleId: string) {
+  emit('bannerClick', articleId)
 }
 </script>
   

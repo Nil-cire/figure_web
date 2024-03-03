@@ -47,8 +47,7 @@ function navigate_tag(tag: string) {
   router.push('/tag/' + tag)
 }
 
-
-const more_display_max = 10
+// const more_display_max = 10
 
 interface Article {
     "id": string,
@@ -60,7 +59,8 @@ interface Article {
     "tags": string[],
     "release": string,
     "image_url": string,
-    "twitter": string
+    "twitter": string,
+    "link": string
 }
 
 const article = ref<Article>()
@@ -78,6 +78,7 @@ async function getArticle(articleId: string) {
         console.log("no article, fetching...")
         const post = await getPostsById(articleId)
         article.value = post
+        console.log(`post = ${post}`)
         articlesStore.addArticle(post)
         getReadMoreArticles(post.main_topic, articleId)
     } else {
@@ -85,36 +86,22 @@ async function getArticle(articleId: string) {
         article.value = storeArticle
         getReadMoreArticles(storeArticle.main_topic, articleId)
     }
-
-
-    // const articles = articlesStore.articles
-    // if (articles.length == 0){
-    //     const homeDataResponse = await axios.get(`http://127.0.0.1:8000/article/${articleId}`);
-    //     const articlesData = homeDataResponse.data['data']
-    //     articlesStore.articles = articlesData;
-    //     article.value = articlesData.find(item => item.id == articleId)
-    //     more_articles.value = articlesData.filter(item => item.id != articleId)
-    // } else {
-    //     console.log(articles)
-    //     article.value = articles.find(item => item.id == articleId)
-    //     more_articles.value = articles.filter(item => item.id != articleId)
-    // }
     window.scrollTo(0, 0);
 }
 
 async function getReadMoreArticles(tag: string, articleId: string) {
-    console.log(`tag = ${tag}`)
+    // console.log(`tag = ${tag}`)
     const storeArticles = articlesStore.articles
     const moreArticles = storeArticles.filter(item => item.main_topic == tag)
     console.log(`moreArticles = ${moreArticles.length}`)
     if (moreArticles.length < 10) {
-        console.log(`moreArticles < 10`)
+        // console.log(`moreArticles < 10`)
         const posts = await getPostsByMainTag(tag, 1)
         const filter_post = posts.filter((item) => item.id != articleId)
         more_articles.value = filter_post
         articlesStore.addArticles(posts)
     } else {
-        console.log(`moreArticles >= 10`)
+        // console.log(`moreArticles >= 10`)
         const filter_post = moreArticles.filter((item) => item.id != articleId)
         more_articles.value = filter_post
     }
@@ -171,97 +158,7 @@ async function _getAticle(id: string) {
     }
 }
 
-const menu1 = {
-    title: " Feature",
-    menus: ["Good Smile", "BANDAI", "GK"]
-}
-const imageUrl = 'https://img.toy-people.com/member/1708 1 60 7 9048_1200.jpg'
-const bannerImages = {
-    main: imageUrl,
-    subs: [imageUrl, imageUrl, imageUrl, imageUrl]
-}
-
-const articleImageSrc = ' https://img.toy-peop l e.co m /member/170806416696_1200.jpg'
-const homeArticle = {
-    imageSrc: articleImageSrc,
-    title: "壽屋『我想成為影之強者！戴爾塔 ED Ver.』1/7比例模型 再現可愛又不失性感的豪放M字蹲！",
-    timestamp: "預定發售：2024年9月",
-}
-
-const bannerTitles = {
-    main: 'main title',
-    subs: ['sub title 1', 'sub title 2', 'sub title 3', 'sub title 4']
-}
-
 const readMore = "Read more"
-
-const imageUrlTopic = 'https://img.toy-people.com/member/17080985107_1200.jpg'
-
-const tags = ref([
-    {
-        name: 'tag1',
-        link: ''
-    },
-    {
-        name: 'tag2tag2',
-        link: ''
-    },
-    {
-        name: 'tag3tag3tag3',
-        link: ''
-    },
-    {
-        name: 'tag4',
-        link: ''
-    },
-    {
-        name: 'tag5',
-        link: ''
-    },
-    {
-        name: 'tag6',
-        link: ''
-    },
-    {
-        name: 'tag7',
-        link: ''
-    },
-])
-
-const popularArticlesImageUrl = 'https://img.toy-people.com/member/17056540127_1200.jpg'
-
-const popularArticles = ref([
-    {
-        title: 'title1',
-        imageUrl: popularArticlesImageUrl,
-        link: ''
-    },
-    {
-        title: 'title2',
-        imageUrl: popularArticlesImageUrl,
-        link: ''
-    },
-    {
-        title: 'title3',
-        imageUrl: popularArticlesImageUrl,
-        link: ''
-    },
-    {
-        title: 'title4',
-        imageUrl: popularArticlesImageUrl,
-        link: ''
-    },
-    {
-        title: 'title5',
-        imageUrl: popularArticlesImageUrl,
-        link: ''
-    },
-    {
-        title: 'title1',
-        imageUrl: popularArticlesImageUrl,
-        link: ''
-    },
-])
 
 </script>
 
@@ -295,6 +192,9 @@ const popularArticles = ref([
                                         <div v-else class="article-content" v-html="content"></div>
                                     </div>
                                 </template>
+                                <div class="reference-link" v-if="article?.link != undefined">
+                                    <a target="_blank" rel="noopener noreferrer" :href="article?.link"> Reference </a>
+                                </div>
                             </div>
                             <!-- <div class="article-content" v-html="article.content + article.content + article.content"></div> -->
                             <!-- <div v-if="article?.twitter != ''" class="twitter-holder">
@@ -303,7 +203,7 @@ const popularArticles = ref([
                                 <div style="flex: 1"></div>
                             </div> -->
 
-                            <div style="margin: 1.5rem 2rem 0.5rem 2rem;">
+                            <div style="margin: 2rem 2rem 0.5rem 2rem;">
                                 <div>Relative:</div>
                                 <WrapTags @tag-click="(tag) => navigate_tag(tag)" :tags="article?.tags" style="margin-top: 0.5rem;" />
                             </div>
@@ -433,5 +333,15 @@ const popularArticles = ref([
 .body-right-article {
     width: 100%;
     margin-bottom: 2rem;
+}
+
+.reference-link {
+    margin-top: 2rem;
+    font-size: 1.0rem;
+    padding: 0 3rem;
+}
+
+.reference-link:hover{
+    cursor: pointer;
 }
 </style>

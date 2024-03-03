@@ -35,7 +35,8 @@ interface Article {
     "tags": string[],
     "release": string,
     "image_url": string,
-    "twitter": string
+    "twitter": string,
+    "link": string
 }
 
 onMounted(() => {
@@ -154,34 +155,17 @@ function navigate_tag(tag: string) {
   router.push('/tag/' + tag)
 }
 
-function navigateByTpye(type: string, path: string) {
-  if (type == 'category') {
-    router.push('/category/' + path)
-  } else {
-    router.push('/article/' + path)
-  }
-}
-
 // const pages = ref({
 //   counts: 12,
 //   currentPage: 1
 // })
 
 const imageUrl = 'https://img.toy-people.com/member/170816079048_1200.jpg'
-const bannerImages = {
-  main: imageUrl,
-  subs: [imageUrl, imageUrl, imageUrl, imageUrl]
-}
 
 const tags_ref = ref<string[]>([])
 const popular_ref = ref<Article[]>([])
 
 const homeArticles = ref([] as Article[])
-
-const bannerTitles = {
-  main: 'main title',
-  subs: ['sub title 1', 'sub title 2', 'sub title 3', 'sub title 4']
-}
 
 const imageUrlTopic = 'https://img.toy-people.com/member/17080985107_1200.jpg'
 const subTopics = [
@@ -238,41 +222,6 @@ const tags = ref([
   },
 ])
 
-const popularArticlesImageUrl = 'https://img.toy-people.com/member/17056540127_1200.jpg'
-
-const popularArticles = ref([
-  {
-    title: 'title1',
-    imageUrl: popularArticlesImageUrl,
-    link: ''
-  },
-  {
-    title: 'title2',
-    imageUrl: popularArticlesImageUrl,
-    link: ''
-  },
-  {
-    title: 'title3',
-    imageUrl: popularArticlesImageUrl,
-    link: ''
-  },
-  {
-    title: 'title4',
-    imageUrl: popularArticlesImageUrl,
-    link: ''
-  },
-  {
-    title: 'title5',
-    imageUrl: popularArticlesImageUrl,
-    link: ''
-  },
-  {
-    title: 'title1',
-    imageUrl: popularArticlesImageUrl,
-    link: ''
-  },
-])
-
 </script>
 
 <template>
@@ -283,8 +232,7 @@ const popularArticles = ref([
   </header>
   
   <main>
-    <HomeBanner @banner-type-click="(type, path) => navigateByTpye(type, path)" class="banner" :largeImageSrc="bannerImages.main" :mainTitle="bannerTitles.main"
-      :smallImages="bannerImages.subs" :subTitles="bannerTitles.subs" />
+    <HomeBanner @banner-click="(article_id) => navigate_article(article_id)" class="banner" :articles="homeArticles.slice(0,5)" />
     <div class="main-body">
       <div class="main-body-left">
         <div style="height: 2rem;">Hot Topics</div>
