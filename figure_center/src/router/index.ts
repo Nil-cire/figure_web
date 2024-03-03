@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import MainView from '../views/MainView.vue'
 import ArticleView from '@/views/ArticleView.vue'
 import CategoryView from '@/views/CategoryView.vue'
+import TagView from '@/views/TagView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/category/:name',
       name: 'category',
       component: CategoryView
+    },
+    {
+      path: '/tag/:tag',
+      name: 'tag',
+      component: TagView
     },
     {
       path: '/about',

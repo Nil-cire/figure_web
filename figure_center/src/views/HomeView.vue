@@ -18,7 +18,7 @@ import { useArticlesStore } from '@/stores/articles';
 import { useHomeStore } from '@/stores/home';
 // import { useRouter } from 'vue-router';
 import { Parse } from 'parse/dist/parse.min.js';
-import { getPosts } from '@/data/post';
+import { getPosts, getPostsById } from '@/data/post';
 import { getHomeData } from '@/data/home';
 
 const articlesStore = useArticlesStore()
@@ -57,14 +57,43 @@ async function _getHomeData() {
   console.log(`init = ${init}`)
   if (!init) {
     const homeData = await getHomeData()
-    twitter_art.value = homeData.twitter_art
-    twitter_consplay.value = homeData.twitter_cosplay
+    // cache in store
     homeStore.twitter_art = homeData.twitter_art
     homeStore.twitter_cosplay = homeData.twitter_cosplay
+    homeStore.tags = homeData.tags
+    homeStore.popular_ids = homeData.popular_ids
+
+    // show data
+    twitter_art.value = homeData.twitter_art
+    twitter_consplay.value = homeData.twitter_cosplay
+    tags_ref.value = homeData.tags
+    popular_ref.value = await _getPopularData(homeData.popular_ids)
   } else {
     twitter_art.value = homeStore.twitter_art
     twitter_consplay.value = homeStore.twitter_cosplay
+    tags_ref.value = homeStore.tags
+    popular_ref.value = await _getPopularData(homeStore.popular_ids)
   }
+}
+
+async function _getPopularData(ids: string[]) {
+  const popularPosts = [] as Article[]
+  for (let i = 0; i < ids.length; i++) {
+    const post = await _getAticle(ids[i])
+    if (post != undefined) popularPosts.push(post)
+  }
+  return popularPosts
+}
+
+async function _getAticle(id: string) {
+  const post = articlesStore.articles.find((item) => item.id == id)
+    if (post != undefined) {
+      return post
+    } else {
+      const fetch_post = await getPostsById(id)
+      articlesStore.addArticle(fetch_post)
+      return post
+    }
 }
 
 async function _getPostData() {
@@ -121,6 +150,10 @@ function navigate_category(category: string) {
   router.push('/category/' + category)
 }
 
+function navigate_tag(tag: string) {
+  router.push('/tag/' + tag)
+}
+
 function navigateByTpye(type: string, path: string) {
   if (type == 'category') {
     router.push('/category/' + path)
@@ -139,6 +172,9 @@ const bannerImages = {
   main: imageUrl,
   subs: [imageUrl, imageUrl, imageUrl, imageUrl]
 }
+
+const tags_ref = ref<string[]>([])
+const popular_ref = ref<Article[]>([])
 
 const homeArticles = ref([] as Article[])
 
@@ -267,7 +303,7 @@ const popularArticles = ref([
       </div>
       <div class="main-body-right">
         <div>Tags</div>
-        <WrapTags :tags="tags" />
+        <WrapTags @tag-click="(tag) => navigate_tag(tag)" :tags="tags_ref" />
         <div style="height: 1.5rem;"></div>
         <div>Art Work Of The Day</div>
         <EmbedView :twitterId="twitter_art" />
@@ -276,8 +312,8 @@ const popularArticles = ref([
         <EmbedView :twitterId="twitter_consplay" />
         <div style="height: 1.5rem;"></div>
         <div style="height: 2rem;">Popular</div>
-        <template v-for="article in popularArticles">
-          <BackgroundImageTextArticle style="margin-bottom: 0.5rem;" :article="article" />
+        <template v-for="article in popular_ref">
+          <BackgroundImageTextArticle @article-click="(id) => navigate_article(id)" style="margin-bottom: 0.5rem;" :article="article" />
         </template>
         <!-- <template v-for="n in 10">
           <HomeSimpleArticleListItem class="body-right-article" :imageSrc="homeArticle.imageSrc"

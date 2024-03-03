@@ -16,7 +16,7 @@ import CategoryHeader from '@/components/CategoryHeaderView.vue';
 import TopIconView from '@/components/TopIconView.vue';
 import HeaderMenu from '@/components/HeaderMenu.vue';
 import { useArticlesStore } from '@/stores/articles'
-import { getPostsByMainTag, getPostsById } from '@/data/post';
+import { getPostsBySubTag, getPostsById } from '@/data/post';
 import { useHomeStore } from '@/stores/home';
 import { getHomeData } from '@/data/home';
 
@@ -24,7 +24,7 @@ import { getHomeData } from '@/data/home';
 const route = useRoute();
 const homeStore = useHomeStore()
 // const articleId = ref(route.params.id)
-const category = ref(route.params.name as string)
+const tag = ref(route.params.tag as string)
 const articlesStore = useArticlesStore()
 
 // const props = defineProps<{
@@ -32,34 +32,36 @@ const articlesStore = useArticlesStore()
 
 watch(route, () => {
     articles_ref.value = []
-    category.value = route.params.name as string
-    _getArticles(category.value)
+    tag.value = route.params.tag as string
+    _getArticles(tag.value)
     _getHomeData()
     window.scrollTo(0, 0)
 })
 
 onMounted(() => {
-    _getArticles(category.value)
+    _getArticles(tag.value)
     _getHomeData()
     window.scrollTo(0, 0)
 })
 
 const pageEnds = ref(true)
 
-async function _getArticles(category: string) {
+async function _getArticles(tag: string) {
     if (articlesStore.upToDate == true) {
-        const category_articles = articlesStore.articles.filter((item) => item.main_topic == category)
+        const category_articles = articlesStore.articles.filter((item) => item.main_topic == tag)
         if (category_articles.length >= 20) {
             articles_ref.value = category_articles.slice(0, 20)
             pageEnds.value = false
         } else {
-            const posts = await getPostsByMainTag(category, 1)
+            const posts = await getPostsBySubTag(tag, 1)
+            console.log(`psot count = ${posts.length}`)
             articles_ref.value = posts
             articlesStore.addArticles(posts)
             if (posts < 20) pageEnds.value = true
         }
     } else {
-        const posts = await getPostsByMainTag(category, 1)
+        const posts = await getPostsBySubTag(tag, 1)
+        console.log(`psot count2 = ${posts.length}`)
         articles_ref.value = posts
         articlesStore.addArticles(posts)
         if (posts < 20) pageEnds.value = true
@@ -81,24 +83,11 @@ function navigate_tag(tag: string) {
 }
 
 
-// async function getArticles(category: string) {
-//     const articles = articlesStore.articles.get(category)
-//     if (articles == undefined){
-//         const articleDataResponse = await axios.get(`http://127.0.0.1:8000/category/${category}`);
-//         const articlesData = articleDataResponse.data['data']
-//         articlesStore.addArticles(category, articlesData);
-//         articles_ref.value = articlesData
-//     } else {
-//         articles_ref.value = articles
-//     }
-//     window.scrollTo(0, 0);
-// }
-
 let page = 1
 
 async function getMorePosts() {
   page += 1
-  const posts = await getPostsByMainTag(category, page)
+  const posts = await getPostsBySubTag(tag, page)
   if (posts.length < 20) {
     pageEnds.value = true
   }
@@ -248,7 +237,7 @@ interface Article {
     <main>
         <div class="main-body">
             <div class="main-body-left">
-                <CategoryHeader :title="category" />
+                <CategoryHeader :title="tag" />
                 <!-- <div style="height: 2rem;">Hot Topics</div>
                 <GridTopicsView :topics="subTopics" />
                 <div style="height: 2rem;"></div>
@@ -281,8 +270,8 @@ interface Article {
                 </div> -->
             </div>
             <div class="main-body-right">
-                <!-- <div style="height: 2rem;">Tags</div>
-                <WrapTags :tags="tags" /> -->
+                <!-- <div style="height: 2rem;">Tags</div> -->
+                <!-- <WrapTags @tag-click="(tag) => navigate_tag(tag)" :tags="tags_ref" /> -->
                 <!-- <div style="height: 1.5rem;"></div>
                 <div>Art Work Of The Day</div>
                 <EmbedView :twitterId="twitterIdArt" />

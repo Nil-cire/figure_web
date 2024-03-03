@@ -1,18 +1,26 @@
 <script setup lang="ts">
-interface TagVo {
-    name: string,
-    link: string
-}
+// interface TagVo {
+//     name: string,
+//     link: string
+// }
 
 const props = defineProps<{
-    tags: TagVo[]
+    tags: string[] | undefined
 }>()
+
+const emit = defineEmits<{
+    tagClick: [tag: string]
+}>()
+
+function onTagClick(tag: string) {
+    emit('tagClick', tag)
+}
 </script>
 
 <template>
     <div class="tags-holder">
         <template v-for="tag in tags">
-            <div class="tag-item"> {{ tag.name }} </div>
+            <div @click="onTagClick(tag)" class="tag-item"> {{ tag }} </div>
         </template>
     </div>
 </template>

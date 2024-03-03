@@ -86,3 +86,30 @@ export async function getPostsById(id: string) {
         twitter: object.twitter,
     }
 }
+
+export async function getPostsBySubTag(tag: string, page: number) {
+    const query = new Parse.Query("Post")
+    query.descending("createdAt")
+    query.skip(counts_per_page * (page - 1))
+    query.limit(counts_per_page)
+    query.equalTo('tags', tag)
+    const posts = await query.find()
+    const objects = JSON.parse(JSON.stringify(posts))
+    const postList = []
+    objects.forEach((post: any) => {
+        const postVo = {
+            id: post.objectId,
+            title: post.title,
+            timestamp: post.createdAt,
+            main_topic: post.main_topic,
+            sub_topic: post.sub_topic,
+            content: post.content,
+            tags: post.tags,
+            release: post.release,
+            image_url: post.image_url,
+            twitter: post.twitter,
+        }
+        postList.push(postVo)
+    })
+    return postList
+}

@@ -6,6 +6,8 @@ export async function getHomeData() {
     const object = JSON.parse(JSON.stringify(posts))
     return {
         twitter_art: object.twitter_art,
-        twitter_cosplay: object.twitter_cosplay
+        twitter_cosplay: object.twitter_cosplay,
+        tags: object.tags,
+        popular_ids: object.popular
     }
 }

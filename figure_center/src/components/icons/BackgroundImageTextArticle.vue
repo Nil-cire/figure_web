@@ -1,26 +1,35 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 
-interface ArticleVo {
-    title: string,
-    imageUrl: string,
-    link: string
+interface Article {
+    "id": string,
+    "title": string,
+    "timestamp": string,
+    "main_topic": string,
+    "sub_topic": string,
+    "content": string[],
+    "tags": string[],
+    "release": string,
+    "image_url": string,
+    "twitter": string
 }
 
 const props = defineProps<{
-    article: ArticleVo
+    article: Article
 }>()
 
-// const holderStyle = computed(() => {
-//     return {
-//         'background': `url(${props.article.imageUrl})`
-//     }
-// })
+const emit = defineEmits<{
+    articleClick: [id: string]
+}>()
+
+function onClick() {
+    emit('articleClick', props.article.id)
+}
+
 </script>
 
 <template>
-    <div class="holder">
-        <img :src="article.imageUrl">
+    <div class="holder" @click="onClick()">
+        <img :src="article.image_url">
         <div class="cover"></div>
         <div class="title">{{ article.title }}</div>
     </div>
@@ -50,7 +59,7 @@ const props = defineProps<{
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.4;
+    opacity: 0.8;
 }
 
 /* .cover {
@@ -65,8 +74,12 @@ const props = defineProps<{
     left: 0;
     right: 0;
     bottom: 0;
-    padding: 0.15rem 0.75rem;
-    max-lines: 2;
-    background-color: rgb(0, 0, 0, 0.4);
+    padding: 0 0.75rem;
+    /* max-lines: 2; */
+    line-height: 1.5em;
+    height: 3.2em;
+    overflow: hidden;
+    background-color: rgb(0, 0, 0, 0.8);
+    color: white;
 }
 </style>

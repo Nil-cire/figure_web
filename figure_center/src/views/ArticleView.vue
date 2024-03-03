@@ -20,8 +20,10 @@ import axios from 'axios'
 // import Article from '@/class/article'
 import { getPosts, getPostsByMainTag, getPostsById } from '@/data/post';
 import WelcomeItem from '@/components/WelcomeItem.vue';
+import { useHomeStore } from '@/stores/home';
+import { getHomeData } from '@/data/home';
 
-
+const homeStore = useHomeStore()
 const articlesStore = useArticlesStore();
 const route = useRoute();
 const articleId = ref(route.params.id as string)
@@ -30,6 +32,7 @@ watch(route, () => {
     article.value = undefined
     articleId.value = route.params.id as string
     getArticle(articleId.value)
+    _getHomeData()
 })
 
 function navigate_article(path: string | number) {
@@ -39,6 +42,11 @@ function navigate_article(path: string | number) {
 function navigate_category(category: string) {
   router.push('/category/' + category)
 }
+
+function navigate_tag(tag: string) {
+  router.push('/tag/' + tag)
+}
+
 
 const more_display_max = 10
 
@@ -60,6 +68,7 @@ const more_articles = ref<Article[]>([])
 
 onMounted(() => {
     getArticle(articleId.value)
+    _getHomeData()
 })
 
 async function getArticle(articleId: string) {
@@ -113,6 +122,53 @@ async function getReadMoreArticles(tag: string, articleId: string) {
 
 function imageStyle(url: string): string {
     return `<img style="width:600px; margin: 1rem auto;" src="${url}">`
+}
+
+const tags_ref = ref<string[]>([])
+const popular_ref = ref<Article[]>([])
+
+async function _getHomeData() {
+  const init = homeStore.upToDate
+  console.log(`init = ${init}`)
+  if (!init) {
+    const homeData = await getHomeData()
+    // cache in store
+    homeStore.twitter_art = homeData.twitter_art
+    homeStore.twitter_cosplay = homeData.twitter_cosplay
+    homeStore.tags = homeData.tags
+    homeStore.popular_ids = homeData.popular_ids
+
+    // show data
+    // twitter_art.value = homeData.twitter_art
+    // twitter_consplay.value = homeData.twitter_cosplay
+    tags_ref.value = homeData.tags
+    popular_ref.value = await _getPopularData(homeData.popular_ids)
+  } else {
+    // twitter_art.value = homeStore.twitter_art
+    // twitter_consplay.value = homeStore.twitter_cosplay
+    tags_ref.value = homeStore.tags
+    popular_ref.value = await _getPopularData(homeStore.popular_ids)
+  }
+}
+
+async function _getPopularData(ids: string[]) {
+  const popularPosts = [] as Article[]
+  for (let i = 0; i < ids.length; i++) {
+    const post = await _getAticle(ids[i])
+    if (post != undefined) popularPosts.push(post)
+  }
+  return popularPosts
+}
+
+async function _getAticle(id: string) {
+  const post = articlesStore.articles.find((item) => item.id == id)
+    if (post != undefined) {
+      return post
+    } else {
+      const fetch_post = await getPostsById(id)
+      articlesStore.addArticle(fetch_post)
+      return post
+    }
 }
 
 const menu1 = {
@@ -249,7 +305,7 @@ const popularArticles = ref([
 
                             <div style="margin: 1.5rem 2rem 0.5rem 2rem;">
                                 <div>Relative:</div>
-                                <WrapTags :tags="tags" style="margin-top: 0.5rem;" />
+                                <WrapTags @tag-click="(tag) => navigate_tag(tag)" :tags="article?.tags" style="margin-top: 0.5rem;" />
                             </div>
                         </div>
 
@@ -257,13 +313,13 @@ const popularArticles = ref([
                         <div style="margin-top: 1rem;">
                             <template v-for="article, index in more_articles">
                                 <HomeArticleListItem @on-article-click="navigate_article(article.id)"
-                                    v-if="index < more_display_max" class="body-left-article" :article="article" />
+                                     class="body-left-article" :article="article" />
                             </template>
                         </div>
                     </div>
                     <div class="main-body-right">
                         <div style="height: 2rem;">Tags</div>
-                        <WrapTags :tags="tags" />
+                        <WrapTags @tag-click="(tag) => navigate_tag(tag)" :tags="tags_ref" />
                         <!-- <div style="height: 1.5rem;"></div>
                 <div>Art Work Of The Day</div>
                 <EmbedView :twitterId="twitterIdArt" />
@@ -272,8 +328,8 @@ const popularArticles = ref([
                 <EmbedView :twitterId="twitterIdCosplay" /> -->
                         <div style="height: 1.5rem;"></div>
                         <div style="height: 2rem;">Popular</div>
-                        <template v-for="article in popularArticles">
-                            <BackgroundImageTextArticle style="margin-bottom: 0.5rem;" :article="article" />
+                        <template v-for="article in popular_ref">
+                            <BackgroundImageTextArticle @article-click="(id) => navigate_article(id)" style="margin-bottom: 0.5rem;" :article="article" />
                         </template>
                         <!-- <template v-for="n in 10">
           <HomeSimpleArticleListItem class="body-right-article" :imageSrc="homeArticle.imageSrc"
