@@ -24,14 +24,14 @@ const menus = [
         displayName: 'Figure',
         path: 'figure',
         categories: [
-            {
-                displayName: 'PVC',
-                path: 'pvc'
-            },
-            {
-                displayName: 'GK',
-                path: 'gk'
-            }
+            // {
+            //     displayName: 'PVC',
+            //     path: 'pvc'
+            // },
+            // {
+            //     displayName: 'GK',
+            //     path: 'gk'
+            // }
         ]
     },
     {
@@ -48,7 +48,7 @@ const menus = [
     },
     {
         id: 3,
-        displayName: 'Merch',
+        displayName: 'Prize & Merch',
         path: 'merch',
         categories: []
     },
@@ -70,6 +70,12 @@ const menus = [
         path: 'vtuber',
         categories: []
     },
+    {
+        id: 6,
+        displayName: 'Pokémon TCG',
+        path: 'vtuber',
+        categories: []
+    },
 ]
 
 </script>
@@ -81,7 +87,7 @@ const menus = [
   justify-content: space-between;
   /* padding-right: 20px; */
   width: 100%;
-  background-color: red;
+  background-color: rgb(227, 100, 20);
 }
 
 .menu-button {

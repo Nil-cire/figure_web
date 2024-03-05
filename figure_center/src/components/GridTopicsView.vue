@@ -1,41 +1,92 @@
 <script setup lang="ts">
-import type { PropType } from 'vue';
 
 
-interface TopicObject {
-    title: string,
-    imageUrl: string,
-    link: string
+interface Article {
+    "id": string,
+    "title": string,
+    "timestamp": string,
+    "main_topic": string,
+    "sub_topic": string,
+    "content": string[],
+    "tags": string[],
+    "release": string,
+    "image_url": string,
+    "twitter": string,
+    "link": string
 }
 
 const props = defineProps<
     {
-        topics: TopicObject[]
+        topics: Article[]
     }
 >()
+
+const emit = defineEmits<{
+    articleClick: [id: string]
+}>()
+
+function onArticleClick(id: string) {
+    emit('articleClick', id)
+}
+
+function getTopicImageUrlOrEmpty(index: number) {
+    if (index <= props.topics.length - 1) {
+        return props.topics[index].image_url
+    } else {
+        return ""
+    }
+}
+
+function getTopicTitleOrEmpty(index: number) {
+    if (index <= props.topics.length - 1) {
+        return props.topics[index].title
+    } else {
+        return ""
+    }
+}
+
+function getTopicMainTopicOrEmpty(index: number) {
+    if (index <= props.topics.length - 1) {
+        return props.topics[index].main_topic
+    } else {
+        return ""
+    }
+}
+
+function getTopicIdOrEmpty(index: number) {
+    if (index <= props.topics.length - 1) {
+        return props.topics[index].id
+    } else {
+        return ""
+    }
+}
 </script>
 
 <template>
     <div class="grid-holder">
-        <div class="topic-holder">
-            <img class="image" :src="props.topics[0].imageUrl">
+        <div class="topic-holder" @click="onArticleClick(getTopicIdOrEmpty(0))">
+            <img class="image" :src="getTopicImageUrlOrEmpty(0)">
             <div class="cover"></div>
-            <div class="title">{{ props.topics[0].title }}</div>
+            <div class="tag-item"> {{ getTopicMainTopicOrEmpty(0) }} </div>
+            <div class="title">{{ getTopicTitleOrEmpty(0) }}</div>
         </div>
-        <div class="topic-holder">
-            <img class="image" :src="props.topics[1].imageUrl">
+        <div class="topic-holder" @click="onArticleClick(getTopicIdOrEmpty(1))">
+            <img class="image" :src="getTopicImageUrlOrEmpty(1)">
             <div class="cover"></div>
-            <div class="title">{{ props.topics[1].title }}</div>
+            <div class="tag-item"> {{ getTopicMainTopicOrEmpty(1) }} </div>
+            <div class="title">{{ getTopicTitleOrEmpty(1) }}</div>
         </div>
-        <div class="topic-holder">
-            <img class="image" :src="props.topics[2].imageUrl">
+        <div class="topic-holder" @click="onArticleClick(getTopicIdOrEmpty(2))">
+            <img class="image" :src="getTopicImageUrlOrEmpty(2)">
             <div class="cover"></div>
-            <div class="title">{{ props.topics[2].title }}</div>
+            <div class="tag-item"> {{ getTopicMainTopicOrEmpty(2) }} </div>
+            <div class="title">{{ getTopicTitleOrEmpty(2) }}</div>
         </div>
-        <div class="topic-holder">
-            <img class="image" :src="props.topics[3].imageUrl">
+        <div class="topic-holder" @click="onArticleClick(getTopicIdOrEmpty(3))">
+            <img class="image" :src="getTopicImageUrlOrEmpty(3)">
             <div class="cover"></div>
-            <div class="title">{{ props.topics[3].title }}</div>
+            <div class="tag-item"> {{ getTopicMainTopicOrEmpty(3) }} </div>
+            <div class="title">{{ getTopicTitleOrEmpty(3) }}</div>
         </div>
     </div>
 </template>
@@ -71,10 +122,10 @@ const props = defineProps<
 .cover {
     position: absolute;
     top: 0;
-    background-color: black;
+    background-color: gray;
     width: 100%;
     height: 100%;
-    opacity: 0.5;
+    opacity: 0.1;
     z-index: 2;
 }
 
@@ -84,13 +135,46 @@ const props = defineProps<
 
 .title {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     width: 100%;
     color: #fff;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     padding: 0 2rem;
     text-align: start;
     z-index: 3;
+
+    display: flex;
+    align-items: center;
+
+    line-height: 2em;
+    height: 4em;
+    overflow: hidden;
+
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+.title:hover {
+    color: orange;
+}
+
+.tags-holder {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tag-item {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-radius: 1.1rem;
+    background-color: white;
+    color: black;
+    border: 2px, black;
+    padding: 0.35rem 1.25rem;
+    margin: 1rem 1rem 1rem 1rem;
+    z-index: 3;
+    font-weight: bold;
 }
 </style>

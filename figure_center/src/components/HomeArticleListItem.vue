@@ -44,7 +44,7 @@ function onArticleClick() {
 .blog-unit {
     display: flex;
     width: 100%;
-    background-color: lightblue;
+    background-color: rgb(242, 208, 255);
     /* grid-template-columns: 1fr 2fr; */
 }
 

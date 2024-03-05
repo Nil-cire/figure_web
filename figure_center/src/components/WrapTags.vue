@@ -38,6 +38,7 @@ function onTagClick(tag: string) {
     border: 2px, black;
     padding: 0.35rem 1.25rem;
     margin: 0.25rem;
+    font-weight: bold;
 }
 
 .tag-item:hover {

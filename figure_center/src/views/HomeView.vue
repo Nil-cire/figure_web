@@ -50,12 +50,29 @@ onMounted(() => {
 // })
 
 let page = 1;
-
 const pageEnds = ref(false)
+const homeArticles = ref([] as Article[])
+const twitter_art = ref('')
+const twitter_consplay = ref('')
+const tags_ref = ref<string[]>([])
+const popular_ref = ref<Article[]>([])
+const home_banner_ref = ref<Article[]>([])
+const home_sub_banner_ref = ref<Article[]>([])
 
+function navigate_article(path: string | number) {
+  router.push('article/' + path)
+}
+
+function navigate_category(category: string) {
+  router.push('/category/' + category)
+}
+
+function navigate_tag(tag: string) {
+  router.push('/tag/' + tag)
+}
+["iBOt0JxHPE", "2uSE5aFuCe", "vhYal5aLgj", "IIVmfuJQis", "6esQv3ibzA"]
 async function _getHomeData() {
   const init = homeStore.upToDate
-  console.log(`init = ${init}`)
   if (!init) {
     const homeData = await getHomeData()
     // cache in store
@@ -63,17 +80,23 @@ async function _getHomeData() {
     homeStore.twitter_cosplay = homeData.twitter_cosplay
     homeStore.tags = homeData.tags
     homeStore.popular_ids = homeData.popular_ids
+    homeStore.home_banner = homeData.home_banner
+    homeStore.home_sub_banner = homeData.home_sub_banner
 
     // show data
     twitter_art.value = homeData.twitter_art
     twitter_consplay.value = homeData.twitter_cosplay
     tags_ref.value = homeData.tags
     popular_ref.value = await _getPopularData(homeData.popular_ids)
+    home_banner_ref.value = await _getPopularData(homeData.home_banner)
+    home_sub_banner_ref.value = (await _getPopularData(homeData.home_sub_banner)).slice(0,4)
   } else {
     twitter_art.value = homeStore.twitter_art
     twitter_consplay.value = homeStore.twitter_cosplay
     tags_ref.value = homeStore.tags
     popular_ref.value = await _getPopularData(homeStore.popular_ids)
+    home_banner_ref.value = (await _getPopularData(homeStore.home_banner)).slice(0,5)
+    home_sub_banner_ref.value = (await _getPopularData(homeStore.home_sub_banner)).slice(0,4)
   }
 }
 
@@ -140,32 +163,13 @@ async function getMorePosts() {
   articlesStore.addArticles(posts)
 }
 
-const twitter_art = ref('')
-const twitter_consplay = ref('')
-
-function navigate_article(path: string | number) {
-  router.push('article/' + path)
-}
-
-function navigate_category(category: string) {
-  router.push('/category/' + category)
-}
-
-function navigate_tag(tag: string) {
-  router.push('/tag/' + tag)
-}
-
 // const pages = ref({
 //   counts: 12,
 //   currentPage: 1
 // })
 
-const imageUrl = 'https://img.toy-people.com/member/170816079048_1200.jpg'
 
-const tags_ref = ref<string[]>([])
-const popular_ref = ref<Article[]>([])
 
-const homeArticles = ref([] as Article[])
 
 const imageUrlTopic = 'https://img.toy-people.com/member/17080985107_1200.jpg'
 const subTopics = [
@@ -232,11 +236,11 @@ const tags = ref([
   </header>
   
   <main>
-    <HomeBanner @banner-click="(article_id) => navigate_article(article_id)" class="banner" :articles="homeArticles.slice(0,5)" />
+    <HomeBanner @banner-click="(article_id) => navigate_article(article_id)" class="banner" :articles="home_banner_ref" />
     <div class="main-body">
       <div class="main-body-left">
         <div style="height: 2rem;">Hot Topics</div>
-        <GridTopicsView :topics="subTopics" />
+        <GridTopicsView @article-click="(id) => navigate_article(id)" :topics="home_sub_banner_ref" />
         <div style="height: 2rem;"></div>
         <div style="height: 2rem;">Latest News</div>
         <template v-for="article in homeArticles">

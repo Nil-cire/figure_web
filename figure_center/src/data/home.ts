@@ -8,6 +8,8 @@ export async function getHomeData() {
         twitter_art: object.twitter_art,
         twitter_cosplay: object.twitter_cosplay,
         tags: object.tags,
-        popular_ids: object.popular
+        popular_ids: object.popular,
+        home_banner: object.home_banner,
+        home_sub_banner: object.home_sub_banner
     }
 }

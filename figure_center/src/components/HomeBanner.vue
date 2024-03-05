@@ -5,10 +5,27 @@
       <div class="overlay-main">{{ _getArticleTitleOrEmpty(0) }}</div>
     </div>
     <div class="small-images">
-      <div v-for="(article, index) in props.articles.splice(1,5)" :key="index" class="small-image" @click="onBannerClick(article.id)">
-          <img :src="article.image_url" alt="Small Image">
+      <!-- <div v-for="(article, index) in props.articles.splice(1,5)" :key="index" class="small-image" @click="onBannerClick(article.id)">
+          <img :src="_getArticleImageOrEmpty(index+1)" alt="Small Image">
           <div class="overlay-sub">{{ article.title }}</div>
+      </div> -->
+      <div class="small-image" @click="onBannerClick(props.articles[1].id)">
+          <img :src="_getArticleImageOrEmpty(1)" alt="Small Image">
+          <div class="overlay-sub">{{ _getArticleTitleOrEmpty(1) }}</div>
       </div>
+      <div class="small-image" @click="onBannerClick(props.articles[2].id)">
+          <img :src="_getArticleImageOrEmpty(2)" alt="Small Image">
+          <div class="overlay-sub">{{ _getArticleTitleOrEmpty(2) }}</div>
+      </div>
+      <div class="small-image" @click="onBannerClick(props.articles[3].id)">
+          <img :src="_getArticleImageOrEmpty(3)" alt="Small Image">
+          <div class="overlay-sub">{{ _getArticleTitleOrEmpty(3) }}</div>
+      </div>
+      <div class="small-image" @click="onBannerClick(props.articles[4].id)">
+          <img :src="_getArticleImageOrEmpty(4)" alt="Small Image">
+          <div class="overlay-sub">{{ _getArticleTitleOrEmpty(4) }}</div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -30,9 +47,13 @@ interface Article {
 }
 
 function _getArticleImageOrEmpty(index: number) {
+  console.log(`index = ${index}`)
+  console.log(`length = ${props.articles.length}`)
   if (index <= props.articles.length -1) {
+    console.log(`image = ${props.articles[index].image_url}`)
     return props.articles[index].image_url
   } else {
+    // console.log(`image = ${props.articles[index].image_url}`)
     return ""
   }
 }
@@ -153,20 +174,39 @@ function onBannerClick(articleId: string) {
   /* right: 0; */
   background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
-  padding: 0.5rem;
-  font-size: 1.5rem;
+  padding: 0 0.75rem;
+  font-size: 1.4rem;
   text-align: start;
+
+  display: flex;
+  align-items: center;
+
+  line-height: 2em;
+  height: 4em;
+  overflow: hidden;
 }
 
 .overlay-sub {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 100%;
-  /* right: 0; */
+  /* width: 100%; */
+  right: 0;
   background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
-  padding: 0.5rem;
+  padding: 0 0.5em;
   text-align: start;
+
+  display: flex;
+  align-items: center;
+
+  line-height: 2em;
+  height: 6em;
+  overflow: hidden;
+
+  /* line-height: 1.5 rem;
+  height: 3 rem;
+  font-size: 1rem;
+  overflow: hidden; */
 }
 </style>

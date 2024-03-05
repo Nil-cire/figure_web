@@ -7,8 +7,10 @@ export const useHomeStore = defineStore('home', () => {
   const twitter_cosplay = ref('')
   const tags = ref<string[]>([])
   const popular_ids = ref<string[]>([])
+  const home_banner = ref<string[]>([])
+  const home_sub_banner = ref<string[]>([])
 
-  return { upToDate, twitter_art, twitter_cosplay, tags, popular_ids }
+  return { upToDate, twitter_art, twitter_cosplay, tags, popular_ids, home_banner, home_sub_banner }
 })
 
 // export const useTagsStore = defineStore('tags', () => {
