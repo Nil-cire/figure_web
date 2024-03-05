@@ -163,11 +163,14 @@ function toDateTime(timestamp: string | undefined) {
 .title {
     font-size: 2.2rem;
     color: white;
-    max-lines: 2;
+    /* max-lines: 2; */
+    line-height: 3rem;
+    height: 6rem;
+    overflow: hidden;
     z-index: 5;
     margin-top: 1rem;
     padding: 0 1rem;
-    line-height: 1.4;
+    /* line-height: 1.4; */
     /* height: 100%; */
 }
 
