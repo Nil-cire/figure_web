@@ -18,6 +18,20 @@ const props = defineProps<{
     article: Article | undefined
 }>()
 
+const emit = defineEmits<{
+    categoryClick: [category: string]
+    tagClick: [tag: string]
+}>()
+
+function onCategoryClick(category: string | undefined) {
+    if (category == undefined) return
+    emit("categoryClick", category)
+}
+
+function onTagClick(tag: string) {
+    emit("tagClick", tag)
+}
+
 function toDateTime(timestamp: string | undefined) {
     if (timestamp == undefined) {
         return ""
@@ -38,12 +52,12 @@ function toDateTime(timestamp: string | undefined) {
         <dic class="image-cover"></dic>
         <div class="content-holder">
             <div class="main-tag-holder">
-                <div class="main-tag"> {{ article?.main_topic }}</div>
-            <div v-if="article?.sub_topic != ''" class="main-tag-secondary"> {{ article?.sub_topic }} </div>
+                <div @click="onCategoryClick(article?.main_topic)" class="main-tag"> {{ article?.main_topic }}</div>
+            <!-- <div v-if="article?.sub_topic != ''" class="main-tag-secondary"> {{ article?.sub_topic }} </div> -->
             </div>
             <div class="sub-tag-holder">
                 <template v-for="tag in article?.tags">
-                    <div class="sub-tag">{{ tag }}</div>
+                    <div @click="onTagClick(tag)" class="sub-tag">{{ tag }}</div>
                 </template>
             </div>
 

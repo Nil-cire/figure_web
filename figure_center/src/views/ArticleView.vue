@@ -168,7 +168,7 @@ const readMore = "Read more"
             <TopIconView />
             <header class="header-block">
                 <HeaderMenu @menu-click="(category) => navigate_category(category)"/>
-                <ArticleBanner class="banner" :article="article" />
+                <ArticleBanner @category-click="category => navigate_category(category)" @tag-click="tag => navigate_tag(tag)" class="banner" :article="article" />
             </header>
             <main>
                 <div class="main-body">
