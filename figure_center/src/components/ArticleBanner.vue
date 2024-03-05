@@ -152,7 +152,7 @@ function toDateTime(timestamp: string | undefined) {
     border-radius: 6px;
     padding: 0.15rem 0.75rem;
     margin-right: 0.5rem;
-    opacity: 0.6;
+    opacity: 0.7;
 }
 
 .sub-tag:hover {

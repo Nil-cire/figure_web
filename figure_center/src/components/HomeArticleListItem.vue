@@ -4,8 +4,9 @@
             <img :src="article?.image_url" alt="figure image">
         </div>
         <div class="content-container">
-            <h3>{{ article?.title }}</h3>
-            <p class="timestamp">{{ article?.timestamp }}</p>
+            <h3 class="title">{{ article?.title }}</h3>
+            <div class="content"> {{ contentString() }} </div>
+            <p class="timestamp">{{ toDateTime(article?.timestamp) }}</p>
         </div>
     </div>
 </template>
@@ -36,6 +37,28 @@ const emit = defineEmits<{
 
 function onArticleClick() {
     emit('onArticleClick', props?.article)
+}
+
+function contentString() {
+    let str = ''
+    props.article?.content.forEach((content) => {
+        if (!content.includes('http')) {
+            str += `${content}, `
+        }
+    })
+    return str
+}
+
+function toDateTime(timestamp: string | undefined) {
+    if (timestamp == undefined) {
+        return ""
+    } else {
+        var date_ob = new Date(parseInt(timestamp) * 1000);
+        const year = date_ob.getFullYear();
+        const month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+        const date = ("0" + date_ob.getDate()).slice(-2);
+        return `${year}-${month}-${date}`
+    }
 }
 
 </script>
@@ -83,21 +106,39 @@ function onArticleClick() {
 
 .content-container {
     flex: auto;
-    margin: auto 2rem auto 0;
+    margin: auto 2rem auto 2rem;
     /* background-color: blue; */
     /* padding-top: calc(100% * (100 / 300)); */
 }
 
-h3 {
+/* h3 {
     font-size: 1.5rem;
+    line-height: 2em;
+    height: 2em;
     margin-bottom: 2.5rem;
-    margin-left: 2rem;
+} */
+
+.title {
+    /* font-size: 1.5rem; */
+    line-height: 2em;
+    height: 4em;
+    font-weight: bold;
+    color: red;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+}
+
+.content {
+    line-height: 2em;
+    height: 4em;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+    color: #888;
 }
 
 .timestamp {
     color: #888;
     /* margin-bottom: 2.5rem; */
-    margin-left: 2rem;
 }
 </style>
   
