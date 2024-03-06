@@ -311,21 +311,6 @@ interface Article {
     min-width: 1280px;
 }
 
-.header-menu-bar {
-    display: flex;
-    justify-content: space-between;
-    /* padding-right: 20px; */
-    width: 100%;
-    background-color: red;
-}
-
-.menu-button {
-    flex: 1;
-    padding-left: 10px;
-    padding-right: 10px;
-    z-index: 20;
-}
-
 .banner {
     margin-top: 1rem;
 }
