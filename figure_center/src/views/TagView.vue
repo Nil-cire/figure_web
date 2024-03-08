@@ -260,7 +260,7 @@ interface Article {
                 </div>
 
                 <div style="margin: 1.5rem 0 0.5rem 0;">
-                    <div>Relative Topics : </div>
+                    <div class="sub-title">Relative Topics : </div>
                     <WrapTags @tag-click="(tag) => navigate_tag(tag)" :tags="tags_ref" style="margin-top: 0.5rem;"/>
                 </div>
                 <!-- <div class="article-content" v-html="article.content + article.content + article.content"></div> -->
@@ -280,7 +280,7 @@ interface Article {
                 <div>Cosplay Of The Day</div>
                 <EmbedView :twitterId="twitterIdCosplay" /> -->
                 <!-- <div style="height: 1.5rem;"></div> -->
-                <div style="height: 2rem;">Popular</div>
+                <div class="sub-title"> 【 Popular 】</div>
                 <template v-for="article in popular_ref">
                     <BackgroundImageTextArticle @article-click="(id) => navigate_article(id)" style="margin-bottom: 0.5rem;" :article="article" />
                 </template>
@@ -380,5 +380,12 @@ interface Article {
 .more-btn:hover {
   cursor: pointer;
   opacity: 0.7;
+}
+
+.sub-title {
+  color: rgb(255, 209, 180);
+  font-size: 1.2rem;
+  height: 2rem;
+  margin-bottom: 0.75rem;
 }
 </style>

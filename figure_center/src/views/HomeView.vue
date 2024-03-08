@@ -239,10 +239,10 @@ const tags = ref([
     <HomeBanner @banner-click="(article_id) => navigate_article(article_id)" class="banner" :articles="home_banner_ref" />
     <div class="main-body">
       <div class="main-body-left">
-        <div style="height: 2rem;">Hot Topics</div>
+        <div class="sub-title"> 【 Hot Topics 】</div>
         <GridTopicsView @article-click="(id) => navigate_article(id)" :topics="home_sub_banner_ref" />
         <div style="height: 2rem;"></div>
-        <div style="height: 2rem;">Latest News</div>
+        <div class="sub-title"> 【 Latest News 】</div>
         <template v-for="article in homeArticles">
           <HomeArticleListItem @on-article-click="(article) => { navigate_article(article.id) }" class="body-left-article" :article="article" />
         </template>
@@ -254,16 +254,16 @@ const tags = ref([
         <!-- <PagingView :counts="pages.counts" :current-page="pages.currentPage" /> -->
       </div>
       <div class="main-body-right">
-        <div>Tags</div>
+        <div class="sub-title"> 【 Tags 】</div>
         <WrapTags @tag-click="(tag) => navigate_tag(tag)" :tags="tags_ref" />
         <div style="height: 1.5rem;"></div>
-        <div>Art Work Of The Day</div>
+        <div class="sub-title"> 【 Art Work Of The Day 】</div>
         <EmbedView :twitterId="twitter_art" />
         <div style="height: 1rem;"></div>
-        <div>Cosplay Of The Day</div>
+        <div class="sub-title"> 【 Cosplay Of The Day 】</div>
         <EmbedView :twitterId="twitter_consplay" />
         <div style="height: 1.5rem;"></div>
-        <div style="height: 2rem;">Popular</div>
+        <div class="sub-title"> 【 Popular 】</div>
         <template v-for="article in popular_ref">
           <BackgroundImageTextArticle @article-click="(id) => navigate_article(id)" style="margin-bottom: 0.5rem;" :article="article" />
         </template>
@@ -348,5 +348,12 @@ const tags = ref([
 .more-btn:hover {
   cursor: pointer;
   opacity: 0.7;
+}
+
+.sub-title {
+  color: rgb(255, 209, 180);
+  font-size: 1.2rem;
+  height: 2rem;
+  margin-bottom: 0.75rem;
 }
 </style>

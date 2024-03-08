@@ -35,7 +35,36 @@ const footerItems = ref([
 <template>
     <div class="holder">
         <div class="content-holder">
-            <template v-for="footer in footerItems">
+            <div class="cell">
+                <img src="@/assets/logo.svg" >
+            </div>
+            <div class="cell">
+                <div style="color: gray; font-size: 1.2rem;"> Follow Us </div>
+                <div class="follow-image-holder">
+                    <a>
+                        <img style="margin-right: 0.5rem;" src="@/assets/twitter.png">
+                    </a>
+                    <a>
+                        <img src="@/assets/instagram.png">
+                    </a>
+                   
+                </div>
+            </div>
+            <div class="cell">
+                <div style="color: gray; font-size: 1.2rem;"> Legal </div>
+                <div class="contact-holder">
+                    <div class="legal" style="color: lightgray; font-size: 1rem;"> Terms of Use</div>
+                    <div class="legal" style="color: lightgray; font-size: 1rem;">Privacy Policy</div>
+                </div>
+            </div>
+            <div class="cell">
+                <div style="color: gray; font-size: 1.2rem;"> Contact Us </div>
+                <div class="contact-holder">
+                    <div style="color: lightgray; font-size: 1rem;"> e-mail: </div>
+                    <a class="link" href="mailto:yourEmail@domain.com">akida-anime-collection@gmail.com</a>
+                </div>
+            </div>
+            <!-- <template v-for="footer in footerItems">
                 <div class="cell">
                     <div class="title">{{ footer.title }}</div>
                     <template v-for="item in footer.items">
@@ -43,18 +72,27 @@ const footerItems = ref([
                     </template>
 
                 </div>
-            </template>
+            </template> -->
         </div>
-        <div class="logo-holder">
+        <!-- <div class="logo-holder">
             <div class="logo">
-                Logo and name here
+                Terms of Use
+            </div>
+        </div> -->
+
+        <div class="end-block"></div>
+        <div class="logo-holder">
+            <div class="logo" style="background-color: black; width: 100%; text-align: center;">
+                2024 AKIDA ANIME COLLECTION, All right reserved.
             </div>
         </div>
-        <div class="end-block"></div>
     </div>
 </template>
 
 <style scoped>
+
+
+
 .holder {
     min-width: 1280px;
     /* padding: 3rem auto 5rem auto; */
@@ -66,10 +104,37 @@ const footerItems = ref([
     display: flex;
     /* padding: 3rem auto 5rem auto; */
     justify-content: center;
+    align-items: top;
+    padding: auto auto;
 }
 
 .cell {
-    margin: 3rem 2rem 0 2rem;
+    /* flex-basis: 25%; */
+    margin: 5rem 2rem 0 2rem;
+    /* margin: 3rem 0 0 0; */
+}
+
+.cell img {
+    width: 80px;
+    height: 80px;
+}
+
+.follow-image-holder {
+    margin-top: 1rem;
+}
+
+.follow-image-holder img {
+    width: 50px;
+    height: 50px;
+}
+
+.legal:hover {
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.contact-holder {
+    margin-top: 1rem;
 }
 
 .title {
@@ -80,6 +145,10 @@ const footerItems = ref([
 .title:hover {
     cursor: pointer;
     opacity: 0.5;
+}
+
+.link:hover {
+    cursor: pointer;
 }
 
 .item {

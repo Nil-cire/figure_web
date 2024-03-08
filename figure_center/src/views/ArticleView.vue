@@ -204,8 +204,8 @@ const readMore = "Read more"
                             </div> -->
 
                             <div style="margin: 2rem 2rem 0.5rem 2rem;">
-                                <div>Relative:</div>
-                                <WrapTags @tag-click="(tag) => navigate_tag(tag)" :tags="article?.tags" style="margin-top: 0.5rem;" />
+                                <div class="sub-title" style="color: black;">Relative:</div>
+                                <WrapTags @tag-click="(tag) => navigate_tag(tag)" :tags="article?.tags" />
                             </div>
                         </div>
 
@@ -218,7 +218,7 @@ const readMore = "Read more"
                         </div>
                     </div>
                     <div class="main-body-right">
-                        <div style="height: 2rem;">Tags</div>
+                        <div class="sub-title"> 【 Tags 】</div>
                         <WrapTags @tag-click="(tag) => navigate_tag(tag)" :tags="tags_ref" />
                         <!-- <div style="height: 1.5rem;"></div>
                 <div>Art Work Of The Day</div>
@@ -227,7 +227,7 @@ const readMore = "Read more"
                 <div>Cosplay Of The Day</div>
                 <EmbedView :twitterId="twitterIdCosplay" /> -->
                         <div style="height: 1.5rem;"></div>
-                        <div style="height: 2rem;">Popular</div>
+                        <div class="sub-title"> 【 Popular 】</div>
                         <template v-for="article in popular_ref">
                             <BackgroundImageTextArticle @article-click="(id) => navigate_article(id)" style="margin-bottom: 0.5rem;" :article="article" />
                         </template>
@@ -329,4 +329,13 @@ const readMore = "Read more"
 .reference-link:hover{
     cursor: pointer;
 }
+
+.sub-title {
+  color: rgb(255, 209, 180);
+  font-size: 1.2rem;
+  height: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+
 </style>

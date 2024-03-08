@@ -67,7 +67,7 @@ function toDateTime(timestamp: string | undefined) {
 .blog-unit {
     display: flex;
     width: 100%;
-    background-color: rgb(242, 208, 255);
+    background-color: rgb(247, 247, 232);
     /* grid-template-columns: 1fr 2fr; */
 }
 
@@ -133,7 +133,7 @@ function toDateTime(timestamp: string | undefined) {
     height: 4em;
     overflow: hidden;
     margin-bottom: 0.75rem;
-    color: #888;
+    color: black;
 }
 
 .timestamp {

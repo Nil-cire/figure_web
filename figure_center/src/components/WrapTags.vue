@@ -33,11 +33,12 @@ function onTagClick(tag: string) {
 
 .tag-item {
     border-radius: 1.1rem;
-    background-color: red;
-    color: white;
+    background-color: white;
+    color: black;
     border: 2px, black;
     padding: 0.35rem 1.25rem;
     margin: 0.25rem;
+    opacity: 0.5;
     font-weight: bold;
 }
 
