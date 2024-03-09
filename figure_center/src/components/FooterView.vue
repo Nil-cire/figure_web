@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import router from '@/router';
+
+function navigate_terms() {
+  router.push('/terms')
+}
 
 
 interface FooterVo {
@@ -53,7 +58,7 @@ const footerItems = ref([
             <div class="cell">
                 <div style="color: gray; font-size: 1.2rem;"> Legal </div>
                 <div class="contact-holder">
-                    <div class="legal" style="color: lightgray; font-size: 1rem;"> Terms of Use</div>
+                    <div @click="navigate_terms()" class="legal" style="color: lightgray; font-size: 1rem;"> Terms of Use </div>
                     <div class="legal" style="color: lightgray; font-size: 1rem;">Privacy Policy</div>
                 </div>
             </div>

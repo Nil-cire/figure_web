@@ -60,7 +60,7 @@ const home_banner_ref = ref<Article[]>([])
 const home_sub_banner_ref = ref<Article[]>([])
 
 function navigate_article(path: string | number) {
-  router.push('article/' + path)
+  router.push('/article/' + path)
 }
 
 function navigate_category(category: string) {
