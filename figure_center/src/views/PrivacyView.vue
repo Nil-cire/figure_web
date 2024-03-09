@@ -9,30 +9,32 @@ import FooterView from '@/components/FooterView.vue'
         <div class="inner-main-holder">
             <TopIconView />
             <div class="content" >
-                <div style="width: 100%; text-align: center; font-size: 2rem;">Terms of Use</div>
+                <div style="width: 100%; text-align: center; font-size: 2rem;">Privacy Policy</div>
                 <br>
                 <div style="font-size: 1.2rem;">
                     <div>Welcome to Akida-Anime-Collection (the "Website"). These Terms of Use ("Terms") govern your access and use of the Website and its services (collectively, the "Service").</div>
                     <br>
                     <div>Please read these Terms carefully before using the Service. By accessing or using the Service, you agree to be bound by these Terms. If you disagree with any part of the Terms, then you may not access or use the Service.</div>
                     <br>
-                    <div class="sub-title">General Use:</div>
-                    <div>1. The information provided on this website are for reference only.</div>
-                    <div>2. We do our best to ensure that the information provided is accurate, but we make no express or implied warranties as to its accuracy, completeness, or timeliness.</div>
-                    <div>3. Users should make their own judgments on the applicability of the product information they obtain on this website and purchase with caution. We are not responsible for any losses caused by the purchase or use of related products.</div>
-                    <div>4. This website may contain links to third-party websites. These links are provided for the sole purpose of providing more information. We are not responsible for the content, privacy policy, or terms of use of third-party websites.</div>
-                    <div>5. All content on this website, including but not limited to text, images, and videos, is protected by copyright law. Unauthorized reproduction or use is prohibited.</div>
+                    <div class="sub-title">Information Collection and Use:</div>
+                    <div>1. When you visit our website, we may collect non-personally identifiable information such as browser information and IP addresses.</div>
+                    <div>2. If you use our contact form or subscribe to newsletters, we may collect relevant contact information, including names and email addresses..</div>
                     <br>
-                    <div class="sub-title">Age Restrictions:</div>
-                    <div>1. The Service is not intended for children under 13.</div>
-                    <div>2. Users between 13-17 need parental consent to use the Service.</div>
+                    <div class="sub-title">Use of Informations:</div>
+                    <div>1. The information we collect will be used to provide, maintain, and improve our services, as well as to send you relevant communications and notifications.</div>
                     <br>
-                    <div class="sub-title">Image Usage:</div>
-                    <div>1. We may display images of products from various manufacturers and companies ("Product Images") on the Website.</div>
-                    <div>2. These Product Images are likely protected by intellectual property rights of the respective companies.</div>
-                    <div>3. Your use of these Product Images is subject to the terms and conditions of the rights holder (usually the manufacturer/company)</div>
-                    <div>4. We do not grant you any rights to use the Product Images beyond what is necessary for your use of the Service.</div>
-                    <div>5. You are solely responsible for obtaining any necessary permissions from the rights holder if you want to use the Product Images outside the Service.</div>
+                    <div class="sub-title">Information Sharing:</div>
+                    <div>1. We do not sell, exchange, or rent your personal information to third parties unless we obtain your consent or as required by law.</div>
+                    <div>2. We may share some anonymous, aggregated statistical information with partners, but this will not include any personally identifiable information.</div>
+                    <br>
+                    <div class="sub-title">Cookie Technology:</div>
+                    <div>1. We use cookie technology to enhance the usability of the website. You can choose to reject cookies through your browser settings.</div>
+                    <br>
+                    <div class="sub-title">Third-Party Links:</div>
+                    <div>1. Our website may contain links to third-party websites, which may have independent privacy policies. We are not responsible for the content and practices of these websites.</div>
+                    <br>
+                    <div class="sub-title">Changes to Privacy Policy:</div>
+                    <div>1. We reserve the right to modify this Privacy Policy. Please check regularly for updates.</div>
                     <br>
                     <div>Update date: 2024/3/10</div>
                     <!-- <div>1. 資訊來源： 本網站提供的動漫玩具、模型、卡片及周邊發售情報僅為參考之用，所有資訊來源均為公開發布或授權使用。</div>

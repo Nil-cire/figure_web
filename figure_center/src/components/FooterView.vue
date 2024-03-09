@@ -6,6 +6,10 @@ function navigate_terms() {
   router.push('/terms')
 }
 
+function navigate_privacy() {
+  router.push('/privacy')
+}
+
 
 interface FooterVo {
     title: string,
@@ -59,7 +63,7 @@ const footerItems = ref([
                 <div style="color: gray; font-size: 1.2rem;"> Legal </div>
                 <div class="contact-holder">
                     <div @click="navigate_terms()" class="legal" style="color: lightgray; font-size: 1rem;"> Terms of Use </div>
-                    <div class="legal" style="color: lightgray; font-size: 1rem;">Privacy Policy</div>
+                    <div @click="navigate_privacy()" class="legal" style="color: lightgray; font-size: 1rem;">Privacy Policy</div>
                 </div>
             </div>
             <div class="cell">

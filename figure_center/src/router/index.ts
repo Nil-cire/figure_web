@@ -5,6 +5,7 @@ import ArticleView from '@/views/ArticleView.vue'
 import CategoryView from '@/views/CategoryView.vue'
 import TagView from '@/views/TagView.vue'
 import TermsView from '@/views/TermsView.vue'
+import PrivacyView from '@/views/PrivacyView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
       path: '/terms',
       name: 'terms',
       component: TermsView
+    },
+    {
+      path: '/privacy',
+      name: 'privacy',
+      component: PrivacyView
     },
     {
       path: '/about',
