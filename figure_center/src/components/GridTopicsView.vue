@@ -65,25 +65,25 @@ function getTopicIdOrEmpty(index: number) {
 <template>
     <div class="grid-holder">
         <div class="topic-holder" @click="onArticleClick(getTopicIdOrEmpty(0))">
-            <img class="image" :src="getTopicImageUrlOrEmpty(0)">
+            <img class="image" :src="getTopicImageUrlOrEmpty(0)" alt="Popular article of current topic">
             <div class="cover"></div>
             <div class="tag-item"> {{ getTopicMainTopicOrEmpty(0) }} </div>
             <div class="title">{{ getTopicTitleOrEmpty(0) }}</div>
         </div>
         <div class="topic-holder" @click="onArticleClick(getTopicIdOrEmpty(1))">
-            <img class="image" :src="getTopicImageUrlOrEmpty(1)">
+            <img class="image" :src="getTopicImageUrlOrEmpty(1)" alt="Popular article of current topic">
             <div class="cover"></div>
             <div class="tag-item"> {{ getTopicMainTopicOrEmpty(1) }} </div>
             <div class="title">{{ getTopicTitleOrEmpty(1) }}</div>
         </div>
         <div class="topic-holder" @click="onArticleClick(getTopicIdOrEmpty(2))">
-            <img class="image" :src="getTopicImageUrlOrEmpty(2)">
+            <img class="image" :src="getTopicImageUrlOrEmpty(2)" alt="Popular article of current topic">
             <div class="cover"></div>
             <div class="tag-item"> {{ getTopicMainTopicOrEmpty(2) }} </div>
             <div class="title">{{ getTopicTitleOrEmpty(2) }}</div>
         </div>
         <div class="topic-holder" @click="onArticleClick(getTopicIdOrEmpty(3))">
-            <img class="image" :src="getTopicImageUrlOrEmpty(3)">
+            <img class="image" :src="getTopicImageUrlOrEmpty(3)" alt="Popular article of current topic">
             <div class="cover"></div>
             <div class="tag-item"> {{ getTopicMainTopicOrEmpty(3) }} </div>
             <div class="title">{{ getTopicTitleOrEmpty(3) }}</div>

@@ -1,15 +1,15 @@
 <template>
     <div class="holder">
     <!-- <a href="//www.toy-people.com/"> -->
-      <img src="//www.toy-people.com/img/logo.svg" @click="toHomePage" alt="玩具人Toy People News" title="玩具人Toy People News" width="157"
+      <img src="//www.toy-people.com/img/logo.svg" @click="toHomePage" alt="Akida Anime Collection Logo" width="157"
         height="49">
     <!-- </a> -->
 
     <div style="width: 100%;"></div>
 
     <div class="social-media">
-      <a><img style="max-width: 100%; max-height: 100%;" src="@/assets/twitter.png"></a>
-      <a><img style="max-width: 100%; max-height: 100%;" src="@/assets/instagram.png"></a>
+      <a><img style="max-width: 100%; max-height: 100%;" src="@/assets/twitter.png" alt="X(Twitter) Logo"></a>
+      <a><img style="max-width: 100%; max-height: 100%;" src="@/assets/instagram.png" alt="Instagram Logo"></a>
     </div>
   </div>
 </template>

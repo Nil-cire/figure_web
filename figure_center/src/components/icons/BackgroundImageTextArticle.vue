@@ -30,7 +30,7 @@ function onClick() {
 
 <template>
     <div class="holder" @click="onClick()">
-        <img :src="article.image_url">
+        <img :src="article.image_url" alt="Image of anime merchandise">
         <div class="cover"></div>
         <div class="title">{{ article.title }}</div>
     </div>

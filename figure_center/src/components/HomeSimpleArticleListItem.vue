@@ -1,7 +1,7 @@
 <template>
     <div class="blog-unit">
         <div class="image-container">
-            <img :src="imageSrc" alt="Blog Image">
+            <img :src="imageSrc" alt="Image of anime merchandise">
         </div>
         <div class="content-container">
             <h3>{{ title }}</h3>

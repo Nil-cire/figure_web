@@ -45,16 +45,16 @@ const footerItems = ref([
     <div class="holder">
         <div class="content-holder">
             <div class="cell">
-                <img src="@/assets/logo.svg" >
+                <img src="@/assets/logo.svg" alt="Website logo">
             </div>
             <div class="cell">
                 <div style="color: gray; font-size: 1.2rem;"> Follow Us </div>
                 <div class="follow-image-holder">
                     <a>
-                        <img style="margin-right: 0.5rem;" src="@/assets/twitter.png">
+                        <img style="margin-right: 0.5rem;" src="@/assets/twitter.png" alt="X(Twitter) icon">
                     </a>
                     <a>
-                        <img src="@/assets/instagram.png">
+                        <img src="@/assets/instagram.png" alt="Instagram icon">
                     </a>
                    
                 </div>

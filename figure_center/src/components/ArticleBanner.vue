@@ -48,7 +48,7 @@ function toDateTime(timestamp: string | undefined) {
 
 <template>
     <div class="holder">
-        <img :src="article?.image_url">
+        <img :src="article?.image_url" alt="Image of the amine merchandise">
         <dic class="image-cover"></dic>
         <div class="content-holder">
             <div class="main-tag-holder">

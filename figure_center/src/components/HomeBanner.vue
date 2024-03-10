@@ -1,7 +1,7 @@
 <template>
   <div class="banner">
     <div class="large-image" @click="onBannerClick(props.articles[0].id)">
-      <img :src="_getArticleImageOrEmpty(0)" alt="Large Image">
+      <img :src="_getArticleImageOrEmpty(0)" alt="Large Image of anime merchandise">
       <div class="overlay-main">{{ _getArticleTitleOrEmpty(0) }}</div>
     </div>
     <div class="small-images">
@@ -10,19 +10,19 @@
           <div class="overlay-sub">{{ article.title }}</div>
       </div> -->
       <div class="small-image" @click="onBannerClick(props.articles[1].id)">
-          <img :src="_getArticleImageOrEmpty(1)" alt="Small Image">
+          <img :src="_getArticleImageOrEmpty(1)" alt="Small Image of anime merchandise">
           <div class="overlay-sub">{{ _getArticleTitleOrEmpty(1) }}</div>
       </div>
       <div class="small-image" @click="onBannerClick(props.articles[2].id)">
-          <img :src="_getArticleImageOrEmpty(2)" alt="Small Image">
+          <img :src="_getArticleImageOrEmpty(2)" alt="Small Image of anime merchandise">
           <div class="overlay-sub">{{ _getArticleTitleOrEmpty(2) }}</div>
       </div>
       <div class="small-image" @click="onBannerClick(props.articles[3].id)">
-          <img :src="_getArticleImageOrEmpty(3)" alt="Small Image">
+          <img :src="_getArticleImageOrEmpty(3)" alt="Small Image of anime merchandise">
           <div class="overlay-sub">{{ _getArticleTitleOrEmpty(3) }}</div>
       </div>
       <div class="small-image" @click="onBannerClick(props.articles[4].id)">
-          <img :src="_getArticleImageOrEmpty(4)" alt="Small Image">
+          <img :src="_getArticleImageOrEmpty(4)" alt="Small Image of anime merchandise">
           <div class="overlay-sub">{{ _getArticleTitleOrEmpty(4) }}</div>
       </div>
 

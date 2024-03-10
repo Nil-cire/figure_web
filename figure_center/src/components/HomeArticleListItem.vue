@@ -1,7 +1,7 @@
 <template>
     <div @click="onArticleClick()" class="blog-unit">
         <div class="image-container">
-            <img :src="article?.image_url" alt="figure image">
+            <img :src="article?.image_url" alt="Image of anime merchandise">
         </div>
         <div class="content-container">
             <h3 class="title">{{ article?.title }}</h3>
