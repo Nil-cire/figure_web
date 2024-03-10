@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import HoverExpandMenuButton from '../components/button/HoverExpandMenuButton.vue'
-import HomeBanner from '@/components/HomeBanner.vue'
 import HomeArticleListItem from '@/components/HomeArticleListItem.vue';
-import HomeSimpleArticleListItem from '@/components/HomeSimpleArticleListItem.vue';
-import EmbedView from '@/components/EmbedView.vue'
-import GridTopicsView from '@/components/GridTopicsView.vue';
 import WrapTags from '@/components/WrapTags.vue';
 import BackgroundImageTextArticle from '@/components/icons/BackgroundImageTextArticle.vue';
-import ArticleBanner from '@/components/ArticleBanner.vue'
 import FooterView from '@/components/FooterView.vue';
 import { ref, watch, onMounted } from 'vue';
 import router from '@/router';
@@ -23,12 +17,9 @@ import { getHomeData } from '@/data/home';
 
 const route = useRoute();
 const homeStore = useHomeStore()
-// const articleId = ref(route.params.id)
 const category = ref(route.params.name as string)
 const articlesStore = useArticlesStore()
 
-// const props = defineProps<{
-// }>()
 
 watch(route, () => {
     articles_ref.value = []
@@ -79,20 +70,6 @@ function navigate_category(category: string) {
 function navigate_tag(tag: string) {
   router.push('/tag/' + tag)
 }
-
-
-// async function getArticles(category: string) {
-//     const articles = articlesStore.articles.get(category)
-//     if (articles == undefined){
-//         const articleDataResponse = await axios.get(`http://127.0.0.1:8000/category/${category}`);
-//         const articlesData = articleDataResponse.data['data']
-//         articlesStore.addArticles(category, articlesData);
-//         articles_ref.value = articlesData
-//     } else {
-//         articles_ref.value = articles
-//     }
-//     window.scrollTo(0, 0);
-// }
 
 let page = 1
 
@@ -158,71 +135,6 @@ async function _getAticle(id: string) {
     }
 }
 
-const tags = ref([
-    {
-        name: 'tag1',
-        link: ''
-    },
-    {
-        name: 'tag2tag2',
-        link: ''
-    },
-    {
-        name: 'tag3tag3tag3',
-        link: ''
-    },
-    {
-        name: 'tag4',
-        link: ''
-    },
-    {
-        name: 'tag5',
-        link: ''
-    },
-    {
-        name: 'tag6',
-        link: ''
-    },
-    {
-        name: 'tag7',
-        link: ''
-    },
-])
-
-const popularArticlesImageUrl = 'https://img.toy-people.com/member/17056540127_1200.jpg'
-
-const popularArticles = ref([
-    {
-        title: 'title1',
-        imageUrl: popularArticlesImageUrl,
-        link: ''
-    },
-    {
-        title: 'title2',
-        imageUrl: popularArticlesImageUrl,
-        link: ''
-    },
-    {
-        title: 'title3',
-        imageUrl: popularArticlesImageUrl,
-        link: ''
-    },
-    {
-        title: 'title4',
-        imageUrl: popularArticlesImageUrl,
-        link: ''
-    },
-    {
-        title: 'title5',
-        imageUrl: popularArticlesImageUrl,
-        link: ''
-    },
-    {
-        title: 'title1',
-        imageUrl: popularArticlesImageUrl,
-        link: ''
-    },
-])
 
 interface Article {
     "id": string,
@@ -250,14 +162,6 @@ interface Article {
         <div class="main-body">
             <div class="main-body-left">
                 <CategoryHeader :title="category" />
-                <!-- <div style="height: 2rem;">Hot Topics</div>
-                <GridTopicsView :topics="subTopics" />
-                <div style="height: 2rem;"></div>
-                <div style="height: 2rem;">Latest News</div>
-                <template v-for="n in 10">
-                    <HomeArticleListItem class="body-left-article" :imageSrc="homeArticle.imageSrc"
-                        :title="homeArticle.title" :timestamp="homeArticle.timestamp" />
-                </template> -->
                 <div style="margin-top: 1rem;">
                     <template v-for="(article, index) in articles_ref">
                         <HomeArticleListItem class="body-left-article" @on-article-click="(article) => { navigate_article(article.id) }" :article="article" />
@@ -274,31 +178,12 @@ interface Article {
                     <div class="sub-title">Relative Topics : </div>
                     <WrapTags @tag-click="(tag) => navigate_tag(tag)" :tags="tags_ref" style="margin-top: 0.5rem;"/>
                 </div>
-                <!-- <div class="article-content" v-html="article.content + article.content + article.content"></div> -->
-                <!-- <div v-if="article.twitter != ''" class="twitter-holder">
-                    <div style="flex: 1"></div>
-                    <EmbedView class="twitter" :twitter-id="article.twitter" />
-                    <div style="flex: 1"></div>
-                </div> -->
             </div>
             <div class="main-body-right">
-                <!-- <div style="height: 2rem;">Tags</div>
-                <WrapTags :tags="tags" /> -->
-                <!-- <div style="height: 1.5rem;"></div>
-                <div>Art Work Of The Day</div>
-                <EmbedView :twitterId="twitterIdArt" />
-                <div style="height: 1rem;"></div>
-                <div>Cosplay Of The Day</div>
-                <EmbedView :twitterId="twitterIdCosplay" /> -->
-                <!-- <div style="height: 1.5rem;"></div> -->
                 <div class="sub-title"> 【 Popular 】</div>
                 <template v-for="article in popular_ref">
                     <BackgroundImageTextArticle @article-click="(id) => navigate_article(id)" style="margin-bottom: 0.5rem;" :article="article" />
                 </template>
-                <!-- <template v-for="n in 10">
-          <HomeSimpleArticleListItem class="body-right-article" :imageSrc="homeArticle.imageSrc"
-            :title="homeArticle.title" :timestamp="homeArticle.timestamp" />
-        </template> -->
             </div>
         </div>
     </main>

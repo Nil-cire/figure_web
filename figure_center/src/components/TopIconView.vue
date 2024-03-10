@@ -1,9 +1,7 @@
 <template>
     <div class="holder">
-    <!-- <a href="//www.toy-people.com/"> -->
       <img src="//www.toy-people.com/img/logo.svg" @click="toHomePage" alt="Akida Anime Collection Logo" width="157"
         height="49">
-    <!-- </a> -->
 
     <div style="width: 100%;"></div>
 

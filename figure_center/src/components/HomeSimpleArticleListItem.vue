@@ -5,7 +5,6 @@
         </div>
         <div class="content-container">
             <h3>{{ title }}</h3>
-            <!-- <p class="summary">{{ summary }}</p> -->
             <p class="timestamp">{{ timestamp }}</p>
         </div>
     </div>

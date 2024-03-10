@@ -1,8 +1,4 @@
 <script setup lang="ts">
-// interface TagVo {
-//     name: string,
-//     link: string
-// }
 
 const props = defineProps<{
     tags: string[] | undefined

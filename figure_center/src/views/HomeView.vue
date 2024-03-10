@@ -2,7 +2,6 @@
 
 import HomeBanner from '@/components/HomeBanner.vue'
 import HomeArticleListItem from '@/components/HomeArticleListItem.vue';
-import HomeSimpleArticleListItem from '@/components/HomeSimpleArticleListItem.vue';
 import EmbedView from '@/components/EmbedView.vue'
 import GridTopicsView from '@/components/GridTopicsView.vue';
 import WrapTags from '@/components/WrapTags.vue';
@@ -10,13 +9,10 @@ import BackgroundImageTextArticle from '@/components/icons/BackgroundImageTextAr
 import { onMounted, ref, watch } from 'vue';
 import router from '@/router';
 import FooterView from '@/components/FooterView.vue';
-import PagingView from '@/components/PagingView.vue';
 import TopIconView from '@/components/TopIconView.vue';
 import HeaderMenu from '@/components/HeaderMenu.vue';
-import axios from 'axios'
 import { useArticlesStore } from '@/stores/articles';
 import { useHomeStore } from '@/stores/home';
-// import { useRouter } from 'vue-router';
 import { Parse } from 'parse/dist/parse.min.js';
 import { getPosts, getPostsById } from '@/data/post';
 import { getHomeData } from '@/data/home';
@@ -70,7 +66,7 @@ function navigate_category(category: string) {
 function navigate_tag(tag: string) {
   router.push('/tag/' + tag)
 }
-["iBOt0JxHPE", "2uSE5aFuCe", "vhYal5aLgj", "IIVmfuJQis", "6esQv3ibzA"]
+
 async function _getHomeData() {
   const init = homeStore.upToDate
   if (!init) {
@@ -163,69 +159,6 @@ async function getMorePosts() {
   articlesStore.addArticles(posts)
 }
 
-// const pages = ref({
-//   counts: 12,
-//   currentPage: 1
-// })
-
-
-
-
-const imageUrlTopic = 'https://img.toy-people.com/member/17080985107_1200.jpg'
-const subTopics = [
-  {
-    title: "title1",
-    imageUrl: imageUrlTopic,
-    link: ''
-  },
-  {
-    title: "title2",
-    imageUrl: imageUrlTopic,
-    link: ''
-  },
-  {
-    title: "title3",
-    imageUrl: imageUrlTopic,
-    link: ''
-  },
-  {
-    title: "title4",
-    imageUrl: imageUrlTopic,
-    link: ''
-  },
-]
-
-const tags = ref([
-  {
-    name: 'tag1',
-    link: ''
-  },
-  {
-    name: 'tag2tag2',
-    link: ''
-  },
-  {
-    name: 'tag3tag3tag3',
-    link: ''
-  },
-  {
-    name: 'tag4',
-    link: ''
-  },
-  {
-    name: 'tag5',
-    link: ''
-  },
-  {
-    name: 'tag6',
-    link: ''
-  },
-  {
-    name: 'tag7',
-    link: ''
-  },
-])
-
 </script>
 
 <template>
@@ -251,7 +184,6 @@ const tags = ref([
           <div class="more-btn" @click="getMorePosts()"> more </div>
           <div style="width: 33%;"></div>
         </div>
-        <!-- <PagingView :counts="pages.counts" :current-page="pages.currentPage" /> -->
       </div>
       <div class="main-body-right">
         <div class="sub-title"> 【 Tags 】</div>
@@ -267,10 +199,6 @@ const tags = ref([
         <template v-for="article in popular_ref">
           <BackgroundImageTextArticle @article-click="(id) => navigate_article(id)" style="margin-bottom: 0.5rem;" :article="article" />
         </template>
-        <!-- <template v-for="n in 10">
-          <HomeSimpleArticleListItem class="body-right-article" :imageSrc="homeArticle.imageSrc"
-            :title="homeArticle.title" :timestamp="homeArticle.timestamp" />
-        </template> -->
       </div>
     </div>
   </main>

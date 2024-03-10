@@ -47,13 +47,9 @@ interface Article {
 }
 
 function _getArticleImageOrEmpty(index: number) {
-  console.log(`index = ${index}`)
-  console.log(`length = ${props.articles.length}`)
   if (index <= props.articles.length -1) {
-    console.log(`image = ${props.articles[index].image_url}`)
     return props.articles[index].image_url
   } else {
-    // console.log(`image = ${props.articles[index].image_url}`)
     return ""
   }
 }
@@ -68,20 +64,8 @@ function _getArticleTitleOrEmpty(index: number) {
 
 const props = defineProps<{
   articles: Article[]
-  // largeImageSrc: string
-  // mainTitle: string
-  // smallImages: string[]
-  // subTitles: string[]
 }>()
 
-// const path = "11";
-// const article = 'article';
-// const category = 'category';
-
-// const emit = defineEmits<{
-//   (e: 'bannerClick', id: string): void
-//   (e: 'bannerTypeClick', type: string, path: string): void
-// }>()
 
 const emit = defineEmits<{
   bannerClick: [articleId: string]

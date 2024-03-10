@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import HoverExpandMenuButton from '../components/button/HoverExpandMenuButton.vue'
-import HomeBanner from '@/components/HomeBanner.vue'
 import HomeArticleListItem from '@/components/HomeArticleListItem.vue';
-import HomeSimpleArticleListItem from '@/components/HomeSimpleArticleListItem.vue';
-import EmbedView from '@/components/EmbedView.vue'
-import GridTopicsView from '@/components/GridTopicsView.vue';
 import WrapTags from '@/components/WrapTags.vue';
 import BackgroundImageTextArticle from '@/components/icons/BackgroundImageTextArticle.vue';
 import ArticleBanner from '@/components/ArticleBanner.vue'
@@ -16,10 +11,8 @@ import CategoryHeader from '@/components/CategoryHeaderView.vue';
 import TopIconView from '@/components/TopIconView.vue';
 import HeaderMenu from '@/components/HeaderMenu.vue';
 import { useArticlesStore } from '@/stores/articles'
-import axios from 'axios'
 // import Article from '@/class/article'
 import { getPosts, getPostsByMainTag, getPostsById } from '@/data/post';
-import WelcomeItem from '@/components/WelcomeItem.vue';
 import { useHomeStore } from '@/stores/home';
 import { getHomeData } from '@/data/home';
 
@@ -47,7 +40,6 @@ function navigate_tag(tag: string) {
   router.push('/tag/' + tag)
 }
 
-// const more_display_max = 10
 
 interface Article {
     "id": string,
@@ -75,14 +67,11 @@ async function getArticle(articleId: string) {
     const storeArticles = articlesStore.articles
     const storeArticle = storeArticles.find(item => item.id == articleId)
     if (storeArticle == undefined) {
-        console.log("no article, fetching...")
         const post = await getPostsById(articleId)
         article.value = post
-        console.log(`post = ${post}`)
         articlesStore.addArticle(post)
         getReadMoreArticles(post.main_topic, articleId)
     } else {
-        console.log("article found")
         article.value = storeArticle
         getReadMoreArticles(storeArticle.main_topic, articleId)
     }
@@ -90,18 +79,14 @@ async function getArticle(articleId: string) {
 }
 
 async function getReadMoreArticles(tag: string, articleId: string) {
-    // console.log(`tag = ${tag}`)
     const storeArticles = articlesStore.articles
     const moreArticles = storeArticles.filter(item => item.main_topic == tag)
-    console.log(`moreArticles = ${moreArticles.length}`)
     if (moreArticles.length < 10) {
-        // console.log(`moreArticles < 10`)
         const posts = await getPostsByMainTag(tag, 1)
         const filter_post = posts.filter((item) => item.id != articleId)
         more_articles.value = filter_post
         articlesStore.addArticles(posts)
     } else {
-        // console.log(`moreArticles >= 10`)
         const filter_post = moreArticles.filter((item) => item.id != articleId)
         more_articles.value = filter_post
     }
@@ -116,7 +101,6 @@ const popular_ref = ref<Article[]>([])
 
 async function _getHomeData() {
   const init = homeStore.upToDate
-  console.log(`init = ${init}`)
   if (!init) {
     const homeData = await getHomeData()
     // cache in store
@@ -174,15 +158,6 @@ const readMore = "Read more"
                 <div class="main-body">
                     <div class="main-body-left">
                         <div class="main-body-left-article">
-                            <!-- <CategoryHeader :title="article.title" /> -->
-                            <!-- <div style="height: 2rem;">Hot Topics</div>
-                <GridTopicsView :topics="subTopics" />
-                <div style="height: 2rem;"></div>
-                <div style="height: 2rem;">Latest News</div>
-                <template v-for="n in 10">
-                    <HomeArticleListItem class="body-left-article" :imageSrc="homeArticle.imageSrc"
-                        :title="homeArticle.title" :timestamp="homeArticle.timestamp" />
-                </template> -->
                             <div>
                                 <template v-for="(content, index) in article?.content">
                                     <div>
@@ -196,12 +171,6 @@ const readMore = "Read more"
                                     <a target="_blank" rel="noopener noreferrer" :href="article?.link"> Reference </a>
                                 </div>
                             </div>
-                            <!-- <div class="article-content" v-html="article.content + article.content + article.content"></div> -->
-                            <!-- <div v-if="article?.twitter != ''" class="twitter-holder">
-                                <div style="flex: 1"></div>
-                                <EmbedView class="twitter" :twitter-id="article?.twitter" />
-                                <div style="flex: 1"></div>
-                            </div> -->
 
                             <div style="margin: 2rem 2rem 0.5rem 2rem;">
                                 <div class="sub-title" style="color: black;">Relative:</div>
@@ -220,21 +189,13 @@ const readMore = "Read more"
                     <div class="main-body-right">
                         <div class="sub-title"> 【 Tags 】</div>
                         <WrapTags @tag-click="(tag) => navigate_tag(tag)" :tags="tags_ref" />
-                        <!-- <div style="height: 1.5rem;"></div>
-                <div>Art Work Of The Day</div>
-                <EmbedView :twitterId="twitterIdArt" />
-                <div style="height: 1rem;"></div>
-                <div>Cosplay Of The Day</div>
-                <EmbedView :twitterId="twitterIdCosplay" /> -->
+
                         <div style="height: 1.5rem;"></div>
                         <div class="sub-title"> 【 Popular 】</div>
                         <template v-for="article in popular_ref">
                             <BackgroundImageTextArticle @article-click="(id) => navigate_article(id)" style="margin-bottom: 0.5rem;" :article="article" />
                         </template>
-                        <!-- <template v-for="n in 10">
-          <HomeSimpleArticleListItem class="body-right-article" :imageSrc="homeArticle.imageSrc"
-            :title="homeArticle.title" :timestamp="homeArticle.timestamp" />
-        </template> -->
+
                     </div>
                 </div>
             </main>
