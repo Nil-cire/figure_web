@@ -1,3 +1,3 @@
 module.exports = {
-    publicPath: '/list-with-products/'
+    publicPath: '/figure_center/'
 }
